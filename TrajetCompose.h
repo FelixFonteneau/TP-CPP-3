@@ -35,12 +35,29 @@ class TrajetCompose : public Trajet
 
 public:
 //----------------------------------------------------- Méthodes publiques
+
+
+  virtual bool EnvoyerType () const
+  {
+      return 1;
+  }
+    //mode d'emploi : Envoi un bool pour savoir le type du fichier
+    //envoi 0 pour un trajet simple et 1 pour trajet compose.
+    //en locurence envera 1 ici
+
+
   virtual void Afficher () const;
   // Mode d'emploi : Affiche sur la sortie standard le déroulement du trajet
   // composé, c'est à dire le départ, les étapes, l'arrivée et les différents
   // moyens de transports entre.
   // Contrat :
   //
+
+   virtual void AfficherFichier () const;
+   //mode d'emploi : Affiche le trajet Compose pour la sauvegarde  
+   //dans la sortie standard.
+
+
 
   virtual char * EnvoyerVilleDepart() const;
   // Mode d'emploi :

@@ -70,8 +70,22 @@ void TrajetCompose::Afficher ( void ) const
       cout << " - ";
     }
   }
-  cout <<endl;
 } //----- Fin de Méthode
+
+void TrajetCompose::AfficherFichier () const
+{
+  const int nbTrajets = trajetsComposants.EnvoyerCard();
+  for (int i(0) ; i < nbTrajets; i++)
+  {
+    const Trajet& iemeTrajet = trajetsComposants.EnvoyerNiemeTrajet(i);
+    iemeTrajet.AfficherFichier();
+    if(i != nbTrajets-1)
+    {
+      cout << ":";
+    }
+  }
+	
+}//----- Fin de AfficherFichier
 
 
 //------------------------------------------------- Surcharge d'opérateurs

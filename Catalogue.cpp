@@ -20,7 +20,7 @@ using namespace std;
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
 #include <cstring>
-
+#include <string>
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -34,7 +34,7 @@ using namespace std;
 
 void Catalogue::Menu()
 {
-		char * villeDepartInit = new char[20];
+	char * villeDepartInit = new char[20];
 	char * villeArriveeInit = new char[20];
 	char * moyenDeTransportInit = new char[20];
 	strcpy(villeDepartInit,"Lyon");
@@ -91,7 +91,7 @@ void Catalogue::Menu()
 			}
 		}
 		if(strcmp(action,"afficher") == 0){
-			Afficher();
+			afficherFichier();
 		}
 		if(strcmp(action,"recherche") == 0){
 			cin >> action;
@@ -136,9 +136,31 @@ void Catalogue::Afficher() const
   const int nbTrajets = trajetsDisponibles.EnvoyerCard();
   for (int i(0) ; i < nbTrajets; i++)
   {
+    
     cout << i+1 << "  : ";
     const Trajet& iemeTrajet = trajetsDisponibles.EnvoyerNiemeTrajet(i);
     iemeTrajet.Afficher();
+    cout << '\n';
+  }	
+}
+
+void Catalogue::afficherFichier() const
+{
+  const int nbTrajets = trajetsDisponibles.EnvoyerCard();
+  for (int i(0) ; i < nbTrajets; i++)
+  {
+    const Trajet& iemeTrajet = trajetsDisponibles.EnvoyerNiemeTrajet(i);
+    string typeTrajet;
+    if( iemeTrajet.EnvoyerType ())
+    {
+	typeTrajet = "TC";
+    }
+    else
+    {
+    	typeTrajet = "TS";
+    }
+    cout << typeTrajet << ":";
+    iemeTrajet.AfficherFichier();
     cout << '\n';
   }
 }

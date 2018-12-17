@@ -40,7 +40,7 @@ public:
 
 
     void Afficher() const;
-    // Mode d'emploi : Nous affichons de manière ordonée le contenu du
+    // Mode d'emploi : Nous affichons sur la sortie standard de manière ordonée le contenu du
     // catalogue à l'instant T, où la fonction est appellée
     // Contrat : Elle ne modifiera pas le contenu de l'instance catalogue
 
@@ -83,9 +83,12 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-
+    void afficherFichier() const;	
+    // Mode d'emploi : Nous affichons sur la sortie standard le contenu du
+    // catalogue (de façon à l'enregistrer dans un fichier) à l'instant T, où la fonction est appellée.
+    // Contrat : Elle ne modifiera pas le contenu de l'instance catalogue
 //----------------------------------------------------- Attributs protégés
-	CollectionTrajet trajetsDisponibles;
+    CollectionTrajet trajetsDisponibles;
 };
 
 //-------------------------------- Autres définitions dépendantes de <Catalogue>

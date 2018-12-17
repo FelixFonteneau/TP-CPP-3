@@ -36,6 +36,12 @@ char * TrajetSimple::EnvoyerMoyenDeTransport() const
 	return moyenDeTransport;
 }
 
+void TrajetSimple::AfficherFichier () const
+{
+	cout << villeDepart << ">" << villeArrivee << "(" <<
+	moyenDeTransport << ")";
+	
+}//----- Fin de AfficherFichier
 
 void TrajetSimple::Afficher(void) const
 // Algorithme :

@@ -30,6 +30,18 @@ class TrajetSimple : public Trajet
 
 public:
 //----------------------------------------------------- Méthodes publiques
+  virtual bool EnvoyerType () const
+  {
+      return 0;
+  }
+    //mode d'emploi : Envoi un bool pour savoir le type du fichier
+    //envoi 0 pour un trajet simple et 1 pour trajet compose.
+    //en locurence envera 0 ici
+
+  virtual void AfficherFichier () const;
+    //mode d'emploi : Affiche le trajet simple pour la sauvegarde  
+    //dans la sortie standard.
+
   virtual void Afficher () const;
   virtual char * EnvoyerVilleDepart() const;
   virtual char * EnvoyerVilleArrivee() const;

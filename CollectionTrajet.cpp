@@ -94,10 +94,10 @@ cardActuelle(uneCollectionTrajet.cardActuelle)
 } //----- Fin de CollectionTrajet (constructeur de copie)
 
 
-CollectionTrajet::CollectionTrajet (const Trajet & trajet, unsigned cardinaliteMaximale)
+CollectionTrajet::CollectionTrajet ( unsigned cardinaliteMaximale)
 : 	trajets (nullptr),
 	cardMax (cardinaliteMaximale),
-	cardActuelle (1)
+	cardActuelle (0)
 // Algorithme :
 //
 {
@@ -105,7 +105,6 @@ CollectionTrajet::CollectionTrajet (const Trajet & trajet, unsigned cardinaliteM
 	    cout << "Appel au constructeur de <CollectionTrajet>" << endl;
 	#endif
 	trajets = new const Trajet * [cardMax];
-	trajets[0] = &trajet;
 
 } //----- Fin de CollectionTrajet
 

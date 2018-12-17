@@ -84,7 +84,7 @@ void TrajetCompose::Afficher ( void ) const
 
 //-------------------------------------------- Constructeurs - destructeur
 TrajetCompose::TrajetCompose (const Trajet & t ) :
-  trajetsComposants(t)
+  trajetsComposants()
 // Algorithme : La logique utilisée est la même que pour les TrajetSimple,
 // ce dernier dispose simplement d'une CollectionTrajet en plus et ses attributs
 // sont déterminés automatiquement
@@ -92,6 +92,7 @@ TrajetCompose::TrajetCompose (const Trajet & t ) :
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetCompose>" << endl;
 #endif
+  trajetsComposants.Ajouter(t);
   villeDepart = new char [20];
   villeArrivee = new char [20];
   strcpy(villeDepart,t.EnvoyerVilleDepart());

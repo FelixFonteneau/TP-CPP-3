@@ -18,7 +18,7 @@ int main(){
 	strcpy(moyenDeTransportInit,"TGV");
 	
 	TrajetSimple trajetInit(villeDepartInit,villeArriveeInit,moyenDeTransportInit);
-	Catalogue catalogue(trajetInit);
+	Catalogue catalogue;
 	cout << "Bienvenue dans notre mini application de gestion de trajet ! \r\n"
 	     << "Si vous souhaitez consulter la liste des commandes, tapez help." << endl;
 	char * action = new char[50];

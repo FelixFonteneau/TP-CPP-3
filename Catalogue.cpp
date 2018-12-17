@@ -68,7 +68,7 @@ void Catalogue::RechercherParcoursSimple(const char *  vDep, const char *  vFin)
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Catalogue::Catalogue (Trajet & t) : trajetsDisponibles(t)
+Catalogue::Catalogue () : trajetsDisponibles()
 // Algorithme :
 //
 {

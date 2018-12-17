@@ -62,7 +62,7 @@ public:
     // Contrat :
     //
 
-    Catalogue (Trajet & t);
+    Catalogue ();
     // Mode d'emploi :
     // Constructeur de catalogue, prend un premier trajet en paramètre.
     // Contrat : Le trajet passé en paramètre est forcément existant.

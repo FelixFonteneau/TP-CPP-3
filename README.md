@@ -1,5 +1,5 @@
 # tpHeritageC
-Le travail réalisé par Félix Fonteneau et moi même, Baptiste Pauletto constituant le binôme B3205
+Le travail réalisé par Félix Fonteneau et moi même, Baptiste Pauletto constituant le binôme 
 
 Le compte rendu du travail est disponible dans le fichier compterendu.pdf
 

@@ -33,6 +33,12 @@ class Catalogue
 
 public:
 //----------------------------------------------------- Méthodes publiques
+    void Menu();
+    // Mode d'emploi : Affiche un menu capable
+    // catalogue à l'instant T, où la fonction est appellée
+    // Contrat :
+
+
     void Afficher() const;
     // Mode d'emploi : Nous affichons de manière ordonée le contenu du
     // catalogue à l'instant T, où la fonction est appellée

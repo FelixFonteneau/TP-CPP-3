@@ -11,8 +11,11 @@
 #define CATALOGUE_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <string>
+#include <cstring>
 #include "Trajet.h"
 #include "CollectionTrajet.h"
+
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -60,6 +63,7 @@ public:
     // de départ (et fin, respectivement) dans le catalogue.
 
   //  void rechercherParcoursAvancee(const std::string & vDep,const std::string & vFin) const;
+	bool Sauvegarde1(string chemin) const;
 
 //-------------------------------------------- Constructeurs - destructeur
     //Catalogue ( const std::string & Catalogue );

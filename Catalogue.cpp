@@ -21,6 +21,8 @@ using namespace std;
 #include "TrajetCompose.h"
 #include <cstring>
 #include <string>
+#include <fstream>
+#include<iomanip>
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -49,6 +51,7 @@ void Catalogue::Menu()
 	unsigned cptTrajetsSimples = 0;
 	unsigned cptTrajetsComposes = 0;
 	unsigned cptTrajetsSimplesComposants = 0;
+	string nomFichier=" ";
 
 
 
@@ -63,7 +66,8 @@ void Catalogue::Menu()
 		cout << "1 : Ajouter un nouveau trajet simple" << endl;
 		cout << "2 : Ajouter un nouveau trajet compose" << endl;
 		cout << "3 : Recherche simple de trajet" << endl;
-		cout << "4 : Quitter l'application" << endl;
+		cout << "4 : Sauvegarde et chargement des trajets" << endl;
+		cout << "5 : Quitter l'application" << endl;
 		cin >> choix;
 		cout << "==============================================" << endl;
 		switch (choix)
@@ -155,10 +159,17 @@ void Catalogue::Menu()
 			break;
 		}
 
-
-
-
 		case '4':
+		{
+			
+			cout << "Veuillez entrez le nom du fichier que vous voulez sauvegarder" << endl;
+			cin >> nomFichier;
+			Sauvegarde1(nomFichier);
+			break;
+		}
+
+
+		case '5':
 		{
 			delete[] action;
 			for (unsigned i(0); i < cptTrajetsSimples; i++) {
@@ -179,10 +190,10 @@ void Catalogue::Menu()
 		}
 		default:
 		{
-			cout << "Saisissez un chiffre entre 0 et 4 s'il vous plait !" << endl;
+			cout << "Saisissez un chiffre entre 0 et 5 s'il vous plait !" << endl;
 		}
 		}
-	} while (choix != '4');
+	} while (choix != '5');
 }
 
 
@@ -209,21 +220,28 @@ void Catalogue::Afficher() const
 void Catalogue::afficherFichier() const
 {
   const int nbTrajets = trajetsDisponibles.EnvoyerCard();
-  for (int i(0) ; i < nbTrajets; i++)
+  if (nbTrajets == 0)
   {
-    const Trajet& iemeTrajet = trajetsDisponibles.EnvoyerNiemeTrajet(i);
-    string typeTrajet;
-    if( iemeTrajet.EnvoyerType ())
-    {
-	typeTrajet = "TC";
-    }
-    else
-    {
-    	typeTrajet = "TS";
-    }
-    cout << typeTrajet << ":";
-    iemeTrajet.AfficherFichier();
-    cout << '\n';
+	  cout << "Votre catalogue est vide" << endl;
+  }
+  else
+  {
+	  for (int i(0); i < nbTrajets; i++)
+	  {
+		  const Trajet& iemeTrajet = trajetsDisponibles.EnvoyerNiemeTrajet(i);
+		  string typeTrajet;
+		  if (iemeTrajet.EnvoyerType())
+		  {
+			  typeTrajet = "TC";
+		  }
+		  else
+		  {
+			  typeTrajet = "TS";
+		  }
+		  cout << typeTrajet << ":";
+		  iemeTrajet.AfficherFichier();
+		  cout << '\n';
+	  }
   }
 }
 
@@ -234,7 +252,7 @@ void Catalogue::AjouterTrajet(const Trajet & t)
 
 void Catalogue::RechercherParcoursSimple(const char *  vDep, const char *  vFin) const
 {
-    cout << "Version simple :" << endl;
+    //cout << "Version simple :" << endl;
     const int nbTrajets = trajetsDisponibles.EnvoyerCard();
     int j = 1;
     for (int i(0) ; i < nbTrajets; i++)
@@ -243,11 +261,30 @@ void Catalogue::RechercherParcoursSimple(const char *  vDep, const char *  vFin)
       if (strcmp(iemeTrajet.EnvoyerVilleDepart(),vDep) == 0 && strcmp(iemeTrajet.EnvoyerVilleArrivee(),vFin) == 0)
       {
         cout << j++ << "  : ";
-        iemeTrajet.Afficher();
+        iemeTrajet.AfficherFichier();
         cout << '\n';
       }
     }
 }
+
+bool Catalogue::Sauvegarde1(string chemin) const
+{
+	bool ok = false;
+	ofstream fic;
+	fic.open(chemin);
+	if (fic)
+	{
+		ok= true;
+		streambuf *oldCoutBuffer = cout.rdbuf(fic.rdbuf());
+		afficherFichier();
+		cout.rdbuf(oldCoutBuffer);
+		fic.close();
+	}
+	
+	return ok;
+}
+
+
 
 
 

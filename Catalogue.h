@@ -11,10 +11,12 @@
 #define CATALOGUE_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include <string>
-#include <cstring>
 #include "Trajet.h"
+#include "TrajetSimple.h"
 #include "CollectionTrajet.h"
+#include <string>
+#include <iostream>
+#include <fstream>
 
 //------------------------------------------------------------- Constantes
 
@@ -63,7 +65,14 @@ public:
     // de départ (et fin, respectivement) dans le catalogue.
 
   //  void rechercherParcoursAvancee(const std::string & vDep,const std::string & vFin) const;
-	bool Sauvegarde1(string chemin) const;
+
+  bool SauvegardeComplete(std::string chemin) const;
+  // Mode d'emploi : Sauvegarde entièrement le catalogue dans un fichier
+  // passé en paramètre
+  // Contrat : Si l'acces au fichier est impossible, la fonction retournera
+  // false.
+
+  bool Chargement(std::string chemin);
 
 //-------------------------------------------- Constructeurs - destructeur
     //Catalogue ( const std::string & Catalogue );
@@ -87,10 +96,16 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-    void afficherFichier() const;	
+    void afficherFichier() const;
     // Mode d'emploi : Nous affichons sur la sortie standard le contenu du
     // catalogue (de façon à l'enregistrer dans un fichier) à l'instant T, où la fonction est appellée.
     // Contrat : Elle ne modifiera pas le contenu de l'instance catalogue
+
+    TrajetSimple* recupTrajetSimple(std::ifstream fichierEntree);
+    // Mode d'emploi : Recupère les caractèristique d'un trajet simple
+    // en prenant la ville de depart, d'arrivee et moyen de transport
+    // étants sur le input stream
+    // Contrat : Il faut qu'il y ai au moins trois mots sur le input stream
 //----------------------------------------------------- Attributs protégés
     CollectionTrajet trajetsDisponibles;
 };

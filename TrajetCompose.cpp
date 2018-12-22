@@ -81,10 +81,10 @@ void TrajetCompose::AfficherFichier () const
     iemeTrajet.AfficherFichier();
     if(i != nbTrajets-1)
     {
-      cout << ":";
+      cout << " : ";
     }
   }
-	
+
 }//----- Fin de AfficherFichier
 
 

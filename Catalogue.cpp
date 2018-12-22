@@ -21,8 +21,8 @@ using namespace std;
 #include "TrajetCompose.h"
 #include <cstring>
 #include <string>
+#include <iostream>
 #include <fstream>
-#include<iomanip>
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -36,14 +36,11 @@ using namespace std;
 
 void Catalogue::Menu()
 {
-	
+
 	Catalogue leCatalogue = Catalogue();
 	char * villeDepartInit = new char[20];
 	char * villeArriveeInit = new char[20];
 	char * moyenDeTransportInit = new char[20];
-	strcpy(villeDepartInit, "Lyon");
-	strcpy(villeArriveeInit, "Avignon");
-	strcpy(moyenDeTransportInit, "TGV");
 	char * action = new char[50];
 	TrajetSimple * trajetsSimples[50];
 	const TrajetSimple * trajetsSimplesComposants[50];
@@ -51,9 +48,6 @@ void Catalogue::Menu()
 	unsigned cptTrajetsSimples = 0;
 	unsigned cptTrajetsComposes = 0;
 	unsigned cptTrajetsSimplesComposants = 0;
-	string nomFichier=" ";
-
-
 
 	char choix = '0';
 	cout << endl << "Bienvenue dans Traj'App++ " << endl;
@@ -66,21 +60,19 @@ void Catalogue::Menu()
 		cout << "1 : Ajouter un nouveau trajet simple" << endl;
 		cout << "2 : Ajouter un nouveau trajet compose" << endl;
 		cout << "3 : Recherche simple de trajet" << endl;
-		cout << "4 : Sauvegarde et chargement des trajets" << endl;
-		cout << "5 : Quitter l'application" << endl;
+		cout << "4 : Sauvegarder le catalogue actuel" <<endl;
+		cout << "5 : Charger un catalogue depuis un fichier" << endl;
+		cout << "6 : Quitter l'application" << endl;
 		cin >> choix;
 		cout << "==============================================" << endl;
 		switch (choix)
 		{
 		case '0':
 		{
-			//leCatalogue.Afficher();
-			afficherFichier();
+			Afficher();
+			//afficherFichier();
 			break;
 		}
-
-
-
 		case '1':
 		{
 			cout << "Saisissez la ville de depart" << endl;
@@ -96,11 +88,7 @@ void Catalogue::Menu()
 			AjouterTrajet(*trajetsSimples[cptTrajetsSimples]);
 			cptTrajetsSimples++;
 			break;
-
 		}
-
-
-
 		case '2':
 		{
 			cout << "Les entrees ne doivent pas comporter d'espaces !" << endl;
@@ -113,21 +101,19 @@ void Catalogue::Menu()
 			cout << "Ville de d'arrivee : ";
 			cin >> action;
 			strcpy(villeArriveeInit, action);
-			
 			do
 			{
 				cout << "Moyen de Transport : ";
 				cin >> action;
 				strcpy(moyenDeTransportInit, action);
 				trajetsSimplesComposants[cptTrajetsSimplesComposants] = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
-				
+
 				if (i == 0)
 				{
 					trajetsComposes[cptTrajetsComposes] = new TrajetCompose(*trajetsSimplesComposants[cptTrajetsSimplesComposants]);
 				}
 				else
 				{
-
 					trajetsComposes[cptTrajetsComposes]->Ajouter(*trajetsSimplesComposants[cptTrajetsSimplesComposants]);
 				}
 				i++;
@@ -135,18 +121,12 @@ void Catalogue::Menu()
 					strcpy(villeDepartInit, villeArriveeInit);
 					cptTrajetsSimplesComposants++;
 					cout << "Etape suivante (ou STOP) : ";
-				
-			
-
 			} while (cin >> action && strcpy(villeArriveeInit, action) && strcmp(action, "STOP") != 0);
 			//cptTrajetsSimplesComposants++;
 			AjouterTrajet(*trajetsComposes[cptTrajetsComposes]);
 			cptTrajetsComposes++;
 			break;
 		}
-
-
-
 		case '3':
 		{
 			cout << "Saisissez la ville de depart" << endl;
@@ -158,18 +138,36 @@ void Catalogue::Menu()
 			RechercherParcoursSimple(villeDepartInit, villeArriveeInit);
 			break;
 		}
-
 		case '4':
 		{
-			
-			cout << "Veuillez entrez le nom du fichier que vous voulez sauvegarder" << endl;
-			cin >> nomFichier;
-			Sauvegarde1(nomFichier);
+			cout << "Saisissez le chemin d'acces pour votre Sauvegarde. Si le fichier existe déjà il sera remplacé." << endl;
+			cin >> action;
+			if ( !SauvegardeComplete(action))
+			{
+				cout << "erreur de sauvegarde dans le fichier : " << action << endl;
+			}
+			else
+			{
+				cout << "Sauvegardé !" <<endl;
+			}
+			break;
+		}
+		case '5':
+		{
+			cout << "Saisissez le chemin d'acces pour votre Sauvegarde. Si le fichier existe déjà il sera remplacé." << endl;
+			cin >> action;
+			if ( !Chargement(action))
+			{
+				cout << "erreur de chargement dans le fichier : " << action << endl;
+			}
+			else
+			{
+				cout << "Chargé !" <<endl;
+			}
 			break;
 		}
 
-
-		case '5':
+		case '6':
 		{
 			delete[] action;
 			for (unsigned i(0); i < cptTrajetsSimples; i++) {
@@ -186,14 +184,13 @@ void Catalogue::Menu()
 			delete[] moyenDeTransportInit;
 			cout << "A la prochaine :-)" << endl;
 			break;
-
 		}
 		default:
 		{
-			cout << "Saisissez un chiffre entre 0 et 5 s'il vous plait !" << endl;
+			cout << "Saisissez un chiffre entre 0 et 6 s'il vous plait !" << endl;
 		}
-		}
-	} while (choix != '5');
+	}
+	} while (choix != '6');
 }
 
 
@@ -220,28 +217,21 @@ void Catalogue::Afficher() const
 void Catalogue::afficherFichier() const
 {
   const int nbTrajets = trajetsDisponibles.EnvoyerCard();
-  if (nbTrajets == 0)
+  for (int i(0) ; i < nbTrajets; i++)
   {
-	  cout << "Votre catalogue est vide" << endl;
-  }
-  else
-  {
-	  for (int i(0); i < nbTrajets; i++)
-	  {
-		  const Trajet& iemeTrajet = trajetsDisponibles.EnvoyerNiemeTrajet(i);
-		  string typeTrajet;
-		  if (iemeTrajet.EnvoyerType())
-		  {
-			  typeTrajet = "TC";
-		  }
-		  else
-		  {
-			  typeTrajet = "TS";
-		  }
-		  cout << typeTrajet << ":";
-		  iemeTrajet.AfficherFichier();
-		  cout << '\n';
-	  }
+    const Trajet& iemeTrajet = trajetsDisponibles.EnvoyerNiemeTrajet(i);
+    string typeTrajet;
+    if( iemeTrajet.EnvoyerType ())
+    {
+	typeTrajet = "TC";
+    }
+    else
+    {
+    	typeTrajet = "TS";
+    }
+    cout << typeTrajet << " ";
+    iemeTrajet.AfficherFichier();
+    cout << " ;\n";
   }
 }
 
@@ -252,7 +242,7 @@ void Catalogue::AjouterTrajet(const Trajet & t)
 
 void Catalogue::RechercherParcoursSimple(const char *  vDep, const char *  vFin) const
 {
-    //cout << "Version simple :" << endl;
+    cout << "Version simple :" << endl;
     const int nbTrajets = trajetsDisponibles.EnvoyerCard();
     int j = 1;
     for (int i(0) ; i < nbTrajets; i++)
@@ -261,31 +251,53 @@ void Catalogue::RechercherParcoursSimple(const char *  vDep, const char *  vFin)
       if (strcmp(iemeTrajet.EnvoyerVilleDepart(),vDep) == 0 && strcmp(iemeTrajet.EnvoyerVilleArrivee(),vFin) == 0)
       {
         cout << j++ << "  : ";
-        iemeTrajet.AfficherFichier();
+        iemeTrajet.Afficher();
         cout << '\n';
       }
     }
 }
 
-bool Catalogue::Sauvegarde1(string chemin) const
+bool Catalogue::SauvegardeComplete(string chemin) const
 {
 	bool ok = false;
 	ofstream fic;
 	fic.open(chemin);
 	if (fic)
 	{
-		ok= true;
+		ok = true;
 		streambuf *oldCoutBuffer = cout.rdbuf(fic.rdbuf());
 		afficherFichier();
 		cout.rdbuf(oldCoutBuffer);
 		fic.close();
 	}
-	
 	return ok;
 }
 
+bool Catalogue::Chargement(string chemin)
+{
+	ifstream fichierEntree(chemin);
+	if(!fichierEntree.fail())
+	{
+		string motTemporaire;
+		while (fichierEntree >> motTemporaire)
+		{
+			if (motTemporaire.compare("TS") == 0)
+			{
 
+			}
+			else if (motTemporaire.compare("TC") == 0)
+			{
 
+			}
+		}
+	}
+	return !fichierEntree.fail();
+}
+
+// TrajetSimple* Catalogue::recupTrajetSimpleCin(ifstream fichierEntree)
+// {
+//
+// }
 
 
 

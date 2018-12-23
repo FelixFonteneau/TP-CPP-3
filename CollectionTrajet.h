@@ -18,7 +18,7 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <CollectionTrajet>
-// Le rôle de la classe CollectionTrajet, comme son nom l'indique est de contenir 
+// Le rôle de la classe CollectionTrajet, comme son nom l'indique est de contenir
 // des objets hétérogènes dans une collection. En effet, nous avons fait le choix
 // d'encapsuler la structure de données dans une classe afin de permettre la modification
 // de l'implémentation de ce dernier sans pour autant modifier chacune des classes intervenantes.
@@ -32,7 +32,7 @@ class CollectionTrajet
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void Ajouter (const Trajet & tAjouter);
+    void Ajouter (const Trajet * tAjouter);
     // Mode d'emploi : Passage en paramètre d'un trajet, qui sera ajouté
     // à tous les trajets actuellement stockés dans la collection, s'il
     // ne s'agit pas d'un doublon bien entendu.

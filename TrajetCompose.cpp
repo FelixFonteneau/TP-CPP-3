@@ -38,15 +38,15 @@ char * TrajetCompose::EnvoyerVilleArrivee() const
 }
 
 
-bool TrajetCompose::Ajouter(const Trajet & t)
+bool TrajetCompose::Ajouter(const Trajet * t)
 {
-  if(strcmp(t.EnvoyerVilleDepart(),villeArrivee) == 0)
+  if(strcmp(t->EnvoyerVilleDepart(),villeArrivee) == 0)
   {
     #ifdef MAP
     cout << "Ajout du trajet au trajetCompose" << endl;
     #endif
     trajetsComposants.Ajouter(t);
-    strcpy(villeArrivee,t.EnvoyerVilleArrivee());
+    strcpy(villeArrivee,t->EnvoyerVilleArrivee());
     return true;
   }
     #ifdef MAP
@@ -97,7 +97,7 @@ void TrajetCompose::AfficherFichier () const
 
 
 //-------------------------------------------- Constructeurs - destructeur
-TrajetCompose::TrajetCompose (const Trajet & t ) :
+TrajetCompose::TrajetCompose (const Trajet * t ) :
   trajetsComposants()
 // Algorithme : La logique utilisée est la même que pour les TrajetSimple,
 // ce dernier dispose simplement d'une CollectionTrajet en plus et ses attributs
@@ -109,8 +109,8 @@ TrajetCompose::TrajetCompose (const Trajet & t ) :
   trajetsComposants.Ajouter(t);
   villeDepart = new char [20];
   villeArrivee = new char [20];
-  strcpy(villeDepart,t.EnvoyerVilleDepart());
-  strcpy(villeArrivee,t.EnvoyerVilleArrivee());
+  strcpy(villeDepart,t->EnvoyerVilleDepart());
+  strcpy(villeArrivee,t->EnvoyerVilleArrivee());
 
 } //----- Fin de TrajetCompose
 

@@ -41,14 +41,8 @@ void Catalogue::Menu()
 	char * villeDepartInit = new char[20];
 	char * villeArriveeInit = new char[20];
 	char * moyenDeTransportInit = new char[20];
-	char * action = new char[50];
-	TrajetSimple * trajetsSimples[50];
-	const TrajetSimple * trajetsSimplesComposants[50];
-	TrajetCompose * trajetsComposes[50];
-	unsigned cptTrajetsSimples = 0;
-	unsigned cptTrajetsComposes = 0;
-	unsigned cptTrajetsSimplesComposants = 0;
-
+	TrajetSimple * trajetSimpleTmp;
+	TrajetCompose * trajetComposeTmp;
 	char choix = '0';
 	cout << endl << "Bienvenue dans Traj'App++ " << endl;
 	do
@@ -76,17 +70,13 @@ void Catalogue::Menu()
 		case '1':
 		{
 			cout << "Saisissez la ville de depart" << endl;
-			cin >> action;
-			strcpy(villeDepartInit, action);
+			cin >> villeDepartInit;
 			cout << "Saisissez la ville d'arrivee" << endl;
-			cin >> action;
-			strcpy(villeArriveeInit, action);
+			cin >> villeArriveeInit;
 			cout << "Saisissez le moyen de transport" << endl;
-			cin >> action;
-			strcpy(moyenDeTransportInit, action);
-			trajetsSimples[cptTrajetsSimples] = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
-			AjouterTrajet(*trajetsSimples[cptTrajetsSimples]);
-			cptTrajetsSimples++;
+			cin >> moyenDeTransportInit;
+			trajetSimpleTmp = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
+			AjouterTrajet(trajetSimpleTmp);
 			break;
 		}
 		case '2':
@@ -94,57 +84,46 @@ void Catalogue::Menu()
 			cout << "Les entrees ne doivent pas comporter d'espaces !" << endl;
 			cout << "Un trajet compose comporte au moins 2 villes" << endl;
 			cout << "Entrez STOP pour valider la saisie du trajet" << endl;
-			int i = 0;
 			cout << "Ville de depart : ";
-			cin >> action;
-			strcpy(villeDepartInit, action);
+			cin >> villeDepartInit;
 			cout << "Ville de d'arrivee : ";
-			cin >> action;
-			strcpy(villeArriveeInit, action);
+			cin >> villeArriveeInit;
+			cout << "Moyen de Transport : ";
+			cin >> moyenDeTransportInit;
+			trajetSimpleTmp = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
+			trajetComposeTmp =  new TrajetCompose(trajetSimpleTmp);
+			strcpy(villeDepartInit, villeArriveeInit);
+			cout << "Etape suivante : ";
+			cin >> villeArriveeInit;
 			do
 			{
 				cout << "Moyen de Transport : ";
-				cin >> action;
-				strcpy(moyenDeTransportInit, action);
-				trajetsSimplesComposants[cptTrajetsSimplesComposants] = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
-
-				if (i == 0)
-				{
-					trajetsComposes[cptTrajetsComposes] = new TrajetCompose(*trajetsSimplesComposants[cptTrajetsSimplesComposants]);
-				}
-				else
-				{
-					trajetsComposes[cptTrajetsComposes]->Ajouter(*trajetsSimplesComposants[cptTrajetsSimplesComposants]);
-				}
-				i++;
-					//cout << "coucou" << endl;
-					strcpy(villeDepartInit, villeArriveeInit);
-					cptTrajetsSimplesComposants++;
-					cout << "Etape suivante (ou STOP) : ";
-			} while (cin >> action && strcpy(villeArriveeInit, action) && strcmp(action, "STOP") != 0);
-			//cptTrajetsSimplesComposants++;
-			AjouterTrajet(*trajetsComposes[cptTrajetsComposes]);
-			cptTrajetsComposes++;
+				cin >> moyenDeTransportInit;
+				trajetSimpleTmp = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
+				trajetComposeTmp->Ajouter(trajetSimpleTmp);
+				strcpy(villeDepartInit, villeArriveeInit);
+				cout << "Etape suivante (ou STOP) : ";
+			} while (cin >> villeArriveeInit && strcmp(villeArriveeInit, "STOP") != 0);
+			AjouterTrajet(trajetComposeTmp);
 			break;
 		}
 		case '3':
 		{
 			cout << "Saisissez la ville de depart" << endl;
-			cin >> action;
-			strcpy(villeDepartInit, action);
+			cin >> villeDepartInit;
 			cout << "Saisissez la ville d'arrivee" << endl;
-			cin >> action;
-			strcpy(villeArriveeInit, action);
+			cin >> villeArriveeInit;
 			RechercherParcoursSimple(villeDepartInit, villeArriveeInit);
 			break;
 		}
 		case '4':
 		{
+			string cheminFichier;
 			cout << "Saisissez le chemin d'acces pour votre Sauvegarde. Si le fichier existe déjà il sera remplacé." << endl;
-			cin >> action;
-			if ( !SauvegardeComplete(action))
+			cin >> cheminFichier;
+			if ( !SauvegardeComplete(cheminFichier))
 			{
-				cout << "erreur de sauvegarde dans le fichier : " << action << endl;
+				cout << "erreur de sauvegarde dans le fichier : " << cheminFichier << endl;
 			}
 			else
 			{
@@ -154,11 +133,12 @@ void Catalogue::Menu()
 		}
 		case '5':
 		{
+			string cheminFichier;
 			cout << "Saisissez le chemin d'acces pour votre Sauvegarde. Si le fichier existe déjà il sera remplacé." << endl;
-			cin >> action;
-			if ( !Chargement(action))
+			cin >> cheminFichier;
+			if ( !Chargement(cheminFichier))
 			{
-				cout << "erreur de chargement dans le fichier : " << action << endl;
+				cout << "erreur de chargement dans le fichier : " << cheminFichier << endl;
 			}
 			else
 			{
@@ -169,16 +149,6 @@ void Catalogue::Menu()
 
 		case '6':
 		{
-			delete[] action;
-			for (unsigned i(0); i < cptTrajetsSimples; i++) {
-				delete trajetsSimples[i];
-			}
-			for (unsigned i(0); i < cptTrajetsSimplesComposants; i++) {
-				delete trajetsSimplesComposants[i];
-			}
-			for (unsigned i(0); i < cptTrajetsComposes; i++) {
-				delete trajetsComposes[i];
-			}
 			delete[] villeDepartInit;
 			delete[] villeArriveeInit;
 			delete[] moyenDeTransportInit;
@@ -235,7 +205,7 @@ void Catalogue::afficherFichier() const
   }
 }
 
-void Catalogue::AjouterTrajet(const Trajet & t)
+void Catalogue::AjouterTrajet(const Trajet * t)
 {
   trajetsDisponibles.Ajouter(t);
 }

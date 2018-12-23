@@ -23,28 +23,31 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-void CollectionTrajet::Ajouter (const Trajet & tAjouter)
+void CollectionTrajet::Ajouter (const Trajet * tAjouter)
 // Algorithme : Verification de l'absence d'un trajet identique via
 // les méthodes disponibles dans les classes enfants de Trajet
 // à l'intérieur de l'ensemble des trajets puis ajout de ce dernier.
 //
 {
-	 for(unsigned i(0); i < cardActuelle; i++ )
-	 {
-	 	if (strcmp(tAjouter.EnvoyerVilleDepart(),trajets[i]->EnvoyerVilleDepart()) == 0
-	 	&& strcmp(tAjouter.EnvoyerVilleArrivee(),trajets[i]->EnvoyerVilleArrivee()) == 0)
-	 	{	
-			#ifdef MAP
-	 			cout << "TrajetSimple déjà présent !!!!" <<endl;
-			#endif
-			return; //déjà présent !
-	 	}
-	 }
+	 // for(unsigned i(0); i < cardActuelle; i++ )
+	 // {
+	 // 	if (strcmp(tAjouter.EnvoyerVilleDepart(),trajets[i]->EnvoyerVilleDepart()) == 0
+	 // 	&& strcmp(tAjouter.EnvoyerVilleArrivee(),trajets[i]->EnvoyerVilleArrivee()) == 0)
+	 // 	{
+		// 	#ifdef MAP
+	 // 			cout << "TrajetSimple déjà présent !!!!" <<endl;
+		// 	#endif
+		// 	return; //déjà présent !
+	 // 	}
+	 // }
 
 	if (cardActuelle == cardMax){
-		//nouvelle allocation d'un espace plus grand 
+#ifdef MAP
+		cout << "Elargissement de la structure de donnée" <<endl;
+#endif
+		//nouvelle allocation d'un espace plus grand
 		const Trajet * * nouveauxTrajets = new const Trajet * [cardMax+5];
-		//début copie 
+		//début copie
 		for(unsigned i(0); i< cardMax; i++){
 			nouveauxTrajets[i] = trajets[i];
 		} // fin copie
@@ -53,7 +56,7 @@ void CollectionTrajet::Ajouter (const Trajet & tAjouter)
 		trajets = nouveauxTrajets;
 		cardMax += 5;
 	}
-	trajets[cardActuelle] = &tAjouter;
+	trajets[cardActuelle] = tAjouter;
 	++cardActuelle;
 } //----- Fin de Ajouter
 
@@ -119,6 +122,9 @@ CollectionTrajet::~CollectionTrajet ( )
 		cout << "		|card actuelle était :" << cardActuelle << endl;
 
 #endif
+	for(unsigned i(0); i< cardActuelle; i++){
+		delete trajets[i];
+	}
 	delete [] trajets;
 
 } //----- Fin de ~CollectionTrajet

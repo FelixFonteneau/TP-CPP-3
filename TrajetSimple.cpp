@@ -68,8 +68,6 @@ TrajetSimple::TrajetSimple ( char * vDepart, char * vArrivee, char * mTransport)
 	strcpy(villeDepart,vDepart);
 	strcpy(villeArrivee,vArrivee);
 	strcpy(moyenDeTransport,mTransport);
-
-
 } //----- Fin de TrajetSimple (constructeur de copie)
 
 

@@ -49,7 +49,7 @@ public:
     // catalogue à l'instant T, où la fonction est appellée
     // Contrat : Elle ne modifiera pas le contenu de l'instance catalogue
 
-    void AjouterTrajet(const Trajet & t);
+    void AjouterTrajet(const Trajet * t);
     // Mode d'emploi : Le trajet passé en paramètre, s'il est différent
     // de ceux déjà présents, sera ajouté au catalogue via un placement
     // au premier index libre via la méthode Ajouter de CollectionTrajet.

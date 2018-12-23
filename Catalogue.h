@@ -101,10 +101,11 @@ protected:
     // catalogue (de façon à l'enregistrer dans un fichier) à l'instant T, où la fonction est appellée.
     // Contrat : Elle ne modifiera pas le contenu de l'instance catalogue
 
-    TrajetSimple* recupTrajetSimple(std::ifstream fichierEntree);
+    TrajetSimple* creerTrajetSimple(std::ifstream &fichierEntree);
     // Mode d'emploi : Recupère les caractèristique d'un trajet simple
     // en prenant la ville de depart, d'arrivee et moyen de transport
-    // étants sur le input stream
+    // étants sur le input stream et creer un nouveau trajet simple a partir
+    // de ces caracterisiques sur le tas.
     // Contrat : Il faut qu'il y ai au moins trois mots sur le input stream
 //----------------------------------------------------- Attributs protégés
     CollectionTrajet trajetsDisponibles;

@@ -118,9 +118,6 @@ CollectionTrajet::~CollectionTrajet ( )
 {
 #ifdef MAP
     cout << "Appel au destructeur de <CollectionTrajet>" << endl;
-		cout << "		|card max était :" << cardMax << endl;
-		cout << "		|card actuelle était :" << cardActuelle << endl;
-
 #endif
 	for(unsigned i(0); i< cardActuelle; i++){
 		delete trajets[i];

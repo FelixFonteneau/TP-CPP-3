@@ -246,28 +246,42 @@ bool Catalogue::SauvegardeComplete(string chemin) const
 bool Catalogue::Chargement(string chemin)
 {
 	ifstream fichierEntree(chemin);
-	if(!fichierEntree.fail())
+	bool acharge;
+	if((acharge = !fichierEntree.fail()))
 	{
 		string motTemporaire;
+		int i = 0;
 		while (fichierEntree >> motTemporaire)
 		{
+			cout << ++i << endl;
 			if (motTemporaire.compare("TS") == 0)
 			{
-
+				AjouterTrajet(creerTrajetSimple(fichierEntree));
 			}
 			else if (motTemporaire.compare("TC") == 0)
 			{
-
+				cout << "trajet compose";
 			}
 		}
 	}
-	return !fichierEntree.fail();
+	return acharge;
 }
 
-// TrajetSimple* Catalogue::recupTrajetSimpleCin(ifstream fichierEntree)
-// {
-//
-// }
+TrajetSimple* Catalogue::creerTrajetSimple(ifstream &fichierEntree)
+{
+	char * villeDtmp = new char[20];
+	char * villeAtmp = new char[20];
+	char * moyenDeTtmp = new char[20];
+	fichierEntree >> villeDtmp;
+	fichierEntree >> villeAtmp;
+	fichierEntree >> moyenDeTtmp;
+	TrajetSimple* trajetSimpleRetour = new TrajetSimple(villeDtmp,villeAtmp,moyenDeTtmp);
+	delete [] villeDtmp;
+	delete [] villeAtmp;
+	delete [] moyenDeTtmp;
+	return trajetSimpleRetour;
+
+}
 
 
 

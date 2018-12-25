@@ -1,10 +1,10 @@
-/*************************************************************************
-                           TrajetSimple  -  description
-                             -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
-*************************************************************************/
+/*************************************************************************************
+						  TrajetSimple-description
+							 -------------------
+	début                : 17/12/2018
+	copyright            : (C) 2018 par Felix FONTENEAU et Houda OUHSSAIN
+	e-mail               : felix.fonteneau@insa-lyon.fr / houda.ouhssain@insa-lyon.fr
+***************************************************************************************/
 
 //---------- Réalisation de la classe <TrajetSimple> (fichier TrajetSimple.cpp) ------------
 
@@ -12,6 +12,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <fstream>
 #include <cstring>
 using namespace std;
 
@@ -36,12 +37,7 @@ char * TrajetSimple::EnvoyerMoyenDeTransport() const
 	return moyenDeTransport;
 }
 
-void TrajetSimple::AfficherFichier () const
-{
-	cout << villeDepart << " " << villeArrivee << " " <<
-	moyenDeTransport;
 
-}//----- Fin de AfficherFichier
 
 void TrajetSimple::Afficher(void) const
 // Algorithme :
@@ -51,11 +47,20 @@ void TrajetSimple::Afficher(void) const
 	moyenDeTransport;
 }//----- Fin de Afficher
 
+
+
+
+
+void TrajetSimple::Enregistrer(ofstream & fout) const
+{ 
+	fout << villeDepart << " " << villeArrivee << " " << moyenDeTransport;
+}//-----Fin Enregistrer
+
 //-------------------------------------------- Constructeurs - destructeur
 TrajetSimple::TrajetSimple ( char * vDepart, char * vArrivee, char * mTransport)
-// Algorithme : Les attributs sont déclarés dans le corps du constructeur
-// afin de pouvoir les détruire proprement à la destruction de l'objet,
-// ce qui s'avérait plus difficile avec la construction du type () : {}
+// Algorithme : Les attributs sont déclarés dans le corps du constructeur 
+// afin de pouvoir les détruire proprement à la destruction de l'objet, 
+// ce qui s'avérait plus difficile avec la construction du type () : {} 
 //
 {
 
@@ -68,6 +73,8 @@ TrajetSimple::TrajetSimple ( char * vDepart, char * vArrivee, char * mTransport)
 	strcpy(villeDepart,vDepart);
 	strcpy(villeArrivee,vArrivee);
 	strcpy(moyenDeTransport,mTransport);
+
+
 } //----- Fin de TrajetSimple (constructeur de copie)
 
 

@@ -1,10 +1,10 @@
-/*************************************************************************
-                           CollectionTrajet  -  description
-                             -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
-*************************************************************************/
+/*************************************************************************************
+						   CollectionTrajet  -  description
+							 -------------------
+	début                : 17/12/2018
+	copyright            : (C) 2018 par Felix FONTENEAU et Houda OUHSSAIN
+	e-mail               : felix.fonteneau@insa-lyon.fr / houda.ouhssain@insa-lyon.fr
+***************************************************************************************/
 
 //---------- Réalisation de la classe <CollectionTrajet> (fichier CollectionTrajet.cpp) ------------
 
@@ -17,42 +17,23 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "CollectionTrajet.h"
-
-//------------------------------------------------------------- Constantes
-
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
 void CollectionTrajet::Ajouter (const Trajet * tAjouter)
-// Algorithme : Verification de l'absence d'un trajet identique via
-// les méthodes disponibles dans les classes enfants de Trajet
-// à l'intérieur de l'ensemble des trajets puis ajout de ce dernier.
-//
 {
-	 // for(unsigned i(0); i < cardActuelle; i++ )
-	 // {
-	 // 	if (strcmp(tAjouter.EnvoyerVilleDepart(),trajets[i]->EnvoyerVilleDepart()) == 0
-	 // 	&& strcmp(tAjouter.EnvoyerVilleArrivee(),trajets[i]->EnvoyerVilleArrivee()) == 0)
-	 // 	{
-		// 	#ifdef MAP
-	 // 			cout << "TrajetSimple déjà présent !!!!" <<endl;
-		// 	#endif
-		// 	return; //déjà présent !
-	 // 	}
-	 // }
-
-	if (cardActuelle == cardMax){
+	if (cardActuelle == cardMax) {
 #ifdef MAP
-		cout << "Elargissement de la structure de donnée" <<endl;
+		cout << "Elargissement de la structure de donnée" << endl;
 #endif
 		//nouvelle allocation d'un espace plus grand
-		const Trajet * * nouveauxTrajets = new const Trajet * [cardMax+5];
+		const Trajet * * nouveauxTrajets = new const Trajet *[cardMax + 5];
 		//début copie
-		for(unsigned i(0); i< cardMax; i++){
+		for (unsigned i(0); i < cardMax; i++) {
 			nouveauxTrajets[i] = trajets[i];
 		} // fin copie
 		//rendre l'espace précedemment alloué
-		delete [] trajets;
+		delete[] trajets;
 		trajets = nouveauxTrajets;
 		cardMax += 5;
 	}
@@ -71,15 +52,7 @@ const Trajet & CollectionTrajet::EnvoyerNiemeTrajet(const unsigned numTrajet) co
 // après vérification de la valeur;
 {
 		return  *trajets[numTrajet];
-}
-
-//------------------------------------------------- Surcharge d'opérateurs
-//CollectionTrajet & CollectionTrajet::operator = ( const CollectionTrajet & uneCollectionTrajet )
-// Algorithme :
-//
-//{
-//} //----- Fin de operator =
-
+} //--------Fin de EnvoyerNiemeTrajet
 
 //-------------------------------------------- Constructeurs - destructeur
 CollectionTrajet::CollectionTrajet ( const CollectionTrajet & uneCollectionTrajet )
@@ -117,12 +90,13 @@ CollectionTrajet::~CollectionTrajet ( )
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <CollectionTrajet>" << endl;
+	cout << "Appel au destructeur de <CollectionTrajet>" << endl;
 #endif
-	for(unsigned i(0); i< cardActuelle; i++){
+	for (unsigned i(0); i < cardActuelle; i++) {
 		delete trajets[i];
-	}
-	delete [] trajets;
+}
+	delete[] trajets;
+
 
 } //----- Fin de ~CollectionTrajet
 

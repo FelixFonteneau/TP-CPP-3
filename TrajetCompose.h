@@ -1,10 +1,10 @@
-/*************************************************************************
-                           TrajetCompose  -  description
-                             -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
-*************************************************************************/
+/*************************************************************************************
+						 TrajetCompose  -  description
+							 -------------------
+	début                : 17/12/2018
+	copyright            : (C) 2018 par Felix FONTENEAU et Houda OUHSSAIN
+	e-mail               : felix.fonteneau@insa-lyon.fr / houda.ouhssain@insa-lyon.fr
+***************************************************************************************/
 
 //---------- Interface de la classe <TrajetCompose> (fichier TrajetCompose.h) ----------------
 #if ! defined ( TrajetCompose_H )
@@ -12,10 +12,9 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
+#include "TrajetSimple.h"
 #include "CollectionTrajet.h"
-//------------------------------------------------------------- Constantes
-
-//------------------------------------------------------------------ Types
+#include <fstream>
 
 //------------------------------------------------------------------------
 // Rôle de la classe <TrajetCompose>
@@ -53,12 +52,6 @@ public:
   // Contrat :
   //
 
-   virtual void AfficherFichier () const;
-   //mode d'emploi : Affiche le trajet Compose pour la sauvegarde
-   //dans la sortie standard.
-
-
-
   virtual char * EnvoyerVilleDepart() const;
   // Mode d'emploi :
   // Renvoie la ville de départ, on effectue pas de passage par références
@@ -79,14 +72,9 @@ public:
   // Contrat :
   //
 
-
-
-//------------------------------------------------- Surcharge d'opérateurs
-    //TrajetCompose & operator = ( const TrajetCompose & unTrajetCompose );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+  virtual void Enregistrer(ofstream & fout) const;
+  // Mode d'emploi : Renvoie dans le fichier dont le flux de sortie est passé en paramètre
+	//le trajet composé avec un affichage spécial fichier
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -101,15 +89,9 @@ public:
     // Contrat :
     //
 
-//------------------------------------------------------------------ PRIVE
-
 protected:
-//----------------------------------------------------- Méthodes protégées
-
 //----------------------------------------------------- Attributs protégés
   CollectionTrajet trajetsComposants;
 };
-
-//-------------------------------- Autres définitions dépendantes de <TrajetCompose>
 
 #endif // TrajetCompose_H

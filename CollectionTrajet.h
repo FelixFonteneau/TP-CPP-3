@@ -1,10 +1,10 @@
-/*************************************************************************
-                           CollectionTrajet  -  description
-                             -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
-*************************************************************************/
+/*************************************************************************************
+						   CollectionTrajet  -  description
+							 -------------------
+	début                : 17/12/2018
+	copyright            : (C) 2018 par Felix FONTENEAU et Houda OUHSSAIN
+	e-mail               : felix.fonteneau@insa-lyon.fr / houda.ouhssain@insa-lyon.fr
+***************************************************************************************/
 
 //---------- Interface de la classe <CollectionTrajet> (fichier CollectionTrajet.h) ----------------
 #if ! defined ( COLLECTIONTRAJET_H )
@@ -12,13 +12,11 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
-//------------------------------------------------------------- Constantes
-
-//------------------------------------------------------------------ Types
+#include <fstream>
 
 //------------------------------------------------------------------------
 // Rôle de la classe <CollectionTrajet>
-// Le rôle de la classe CollectionTrajet, comme son nom l'indique est de contenir
+// Le rôle de la classe CollectionTrajet, comme son nom l'indique est de contenir 
 // des objets hétérogènes dans une collection. En effet, nous avons fait le choix
 // d'encapsuler la structure de données dans une classe afin de permettre la modification
 // de l'implémentation de ce dernier sans pour autant modifier chacune des classes intervenantes.
@@ -53,14 +51,6 @@ public:
     // Contrat : La cardinalité n'en est pas pour autant modifiée.
     //
 
-//------------------------------------------------- Surcharge d'opérateurs
-    //Xxx & operator = ( const Xxx & unXxx );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
-
 //-------------------------------------------- Constructeurs - destructeur
     CollectionTrajet ( const CollectionTrajet & uneCollectionTrajet );
     // Mode d'emploi (constructeur de copie) :
@@ -81,17 +71,12 @@ public:
     // Contrat :
     //
 
-//------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
-
 //----------------------------------------------------- Attributs protégés
     const Trajet * * trajets ;
     unsigned cardMax;
     unsigned cardActuelle;
 };
-
-//-------------------------------- Autres définitions dépendantes de <CollectionTrajet>
 
 #endif // COLLECTIONTRAJET_H

@@ -1,10 +1,10 @@
-/*************************************************************************
-                           TrajetSimple  -  description
-                             -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
-*************************************************************************/
+/*************************************************************************************
+						  TrajetSimple  -  description
+							 -------------------
+	début                : 17/12/2018
+	copyright            : (C) 2018 par Felix FONTENEAU et Houda OUHSSAIN
+	e-mail               : felix.fonteneau@insa-lyon.fr / houda.ouhssain@insa-lyon.fr
+***************************************************************************************/
 
 //---------- Interface de la classe <TrajetSimple> (fichier TrajetSimple.h) ----------------
 #if ! defined ( TRAJETSIMPLE_H )
@@ -12,6 +12,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
+#include <fstream>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -20,7 +21,7 @@ enum eMoyenDeTransport {Train, Auto, Bateau, Avion, Velo};
 // Rôle de la classe <TrajetSimple>
 //	Définir	un trajet par sa ville de départ, sa ville d'arrivée et son moyen de transport
 //	Cette classe constitue aussi la brique de base des trajets composés, qui, peuvent être 
-//      de plusieurs trajets simples ou bien d'autres trajets composés.  
+//  de plusieurs trajets simples ou bien d'autres trajets composés.  
 //
 //------------------------------------------------------------------------
 
@@ -38,17 +39,17 @@ public:
     //envoi 0 pour un trajet simple et 1 pour trajet compose.
     //en locurence envera 0 ici
 
-  virtual void AfficherFichier () const;
-    //mode d'emploi : Affiche le trajet simple pour la sauvegarde  
-    //dans la sortie standard.
-
   virtual void Afficher () const;
+
   virtual char * EnvoyerVilleDepart() const;
+
   virtual char * EnvoyerVilleArrivee() const;
+
   char * EnvoyerMoyenDeTransport() const;
 
-//------------------------------------------------- Surcharge d'opérateurs
-
+  virtual void Enregistrer(ofstream & fout) const;
+  // Mode d'emploi : Renvoie dans le fichier dont le flux de sortie est passé en paramètre
+	//le trajet simple avec un affichage spécial fichier
 
 //-------------------------------------------- Constructeurs - destructeur
     TrajetSimple ( char * vDepart, char * vArrivee, char * mTransport );
@@ -60,16 +61,11 @@ public:
     virtual ~TrajetSimple ( );
     // Mode d'emploi : Destructeur classique
 
-
-//------------------------------------------------------------------ PRIVE
-
 protected:
-//----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
 	char * moyenDeTransport;
 };
 
-//-------------------------------- Autres définitions dépendantes de <TrajetSimple>
 
 #endif // TRAJETSIMPLE_H

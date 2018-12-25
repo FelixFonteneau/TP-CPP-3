@@ -1,10 +1,10 @@
-/*************************************************************************
-                           TrajetCompose  -  description
-                             -------------------
-    début                : $DATE$
-    copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
-*************************************************************************/
+/*************************************************************************************
+						   TrajetCompose  -  description
+							 -------------------
+	début                : 17/12/2018
+	copyright            : (C) 2018 par Felix FONTENEAU et Houda OUHSSAIN
+	e-mail               : felix.fonteneau@insa-lyon.fr / houda.ouhssain@insa-lyon.fr
+***************************************************************************************/
 
 //---------- Réalisation de la classe <TrajetCompose> (fichier TrajetCompose.cpp) ------------
 
@@ -18,8 +18,6 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "TrajetCompose.h"
-
-//------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
@@ -53,7 +51,7 @@ bool TrajetCompose::Ajouter(const Trajet * t)
     cout << "Pas d'ajout du trajet au trajetCompose" << endl;
     #endif
   return false;
-}
+}//Fin de Ajouter
 
 void TrajetCompose::Afficher ( void ) const
 // Algorithme : Une simple boucle fait alors appel à la méthode Afficher()
@@ -72,35 +70,22 @@ void TrajetCompose::Afficher ( void ) const
   }
 } //----- Fin de Méthode
 
-void TrajetCompose::AfficherFichier () const
+
+	
+void TrajetCompose::Enregistrer(ofstream & fout) const
 {
-  const int nbTrajets = trajetsComposants.EnvoyerCard();
-  for (int i(0) ; i < nbTrajets; i++)
-  {
-    const Trajet& iemeTrajet = trajetsComposants.EnvoyerNiemeTrajet(i);
-    iemeTrajet.AfficherFichier();
-    if(i != nbTrajets-1)
-    {
-      cout << " : ";
-    }
-  }
-
-}//----- Fin de AfficherFichier
-
-
-//------------------------------------------------- Surcharge d'opérateurs
-// TrajetCompose & TrajetCompose::operator = ( const TrajetCompose & unTrajetCompose )
-// // Algorithme :
-// //
-// {
-// } //----- Fin de operator =
-
+	for (unsigned int i = 0; i < trajetsComposants.EnvoyerCard(); i++)
+	{
+		(trajetsComposants.EnvoyerNiemeTrajet(i)).Enregistrer(fout);
+		fout << ":";
+	}
+}// Fin de Enregistrer
 
 //-------------------------------------------- Constructeurs - destructeur
-TrajetCompose::TrajetCompose (const Trajet * t ) :
+TrajetCompose::TrajetCompose (const Trajet *t ) :
   trajetsComposants()
 // Algorithme : La logique utilisée est la même que pour les TrajetSimple,
-// ce dernier dispose simplement d'une CollectionTrajet en plus et ses attributs
+// ce dernier dispose simplement d'une CollectionTrajet en plus et ses 
 // sont déterminés automatiquement
 {
 #ifdef MAP
@@ -125,8 +110,3 @@ TrajetCompose::~TrajetCompose ( )
   delete [] villeDepart;
   delete [] villeArrivee;
 } //----- Fin de ~TrajetCompose
-
-
-//------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées

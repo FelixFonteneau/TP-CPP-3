@@ -7,7 +7,7 @@
 ***************************************************************************************/
 
 //---------- Réalisation de la classe <Catalogue> (fichier Catalogue.cpp) ------------
-
+#define _CRT_SECURE_NO_WARNINGS
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
@@ -121,7 +121,6 @@ void Catalogue::Menu()
 
 			case '5':
 			{
-
 				delete[] villeDepartInit;
 				delete[] villeArriveeInit;
 				delete[] moyenDeTransportInit;
@@ -225,9 +224,9 @@ void Catalogue::MenuSave()
 			case '5':
 			{
 				string cheminFichier;
-				cout << "Saisissez le chemin d'acces pour votre Sauvegarde. Si le fichier existe déjà il sera remplacé." << endl;
+				cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 				cin >> cheminFichier;
-				if (!ChargementAll(nomFichier))
+				if (!ChargementAll(cheminFichier))
 				{
 					cout << "erreur de chargement dans le fichier : " << cheminFichier << endl;
 				}
@@ -242,7 +241,7 @@ void Catalogue::MenuSave()
 			case '6':
 			{
 				string cheminFichier;
-				cout << "Saisissez le chemin d'acces pour votre Sauvegarde. Si le fichier existe déjà il sera remplacé." << endl;
+				cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 				cin >> cheminFichier;
 				int nb;
 				cout << "saisissez 0 pour ne sauvegarder que les trajets simples et 1 pour les trajets composées" << endl;
@@ -313,7 +312,7 @@ void Catalogue::MenuSave()
 			}
 			case '9':
 			{
-				Menu();
+				//Menu();
 				break;
 			}
 
@@ -387,33 +386,33 @@ void Catalogue::MenuSave()
 
 					case '4':
 					{
-						/*string cheminFichier;
+						string cheminFichier;
 						cout << "Veuillez entrer le nom de la ville de départ" << endl;
 						cin >> action;
-						cout << "Saisissez le chemin d'acces pour votre Sauvegarde."<< endl;
+						cout << "Saisissez le chemin d'acces pour votre Chargement."<< endl;
 						cin >> cheminFichier;
 
 					
 						if (!ChargementVD(cheminFichier,action))
 						{
-							cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
+							cout << "erreur de chargement dans le fichier : " << cheminFichier << endl;
 						}
 						else
 						{
 							cout << "Chargé !" << endl;
 						}
 						
-						*/
-						cout << "méthode non fonctionnel" << endl;
+						
+					
 
 						break;
 					}
 
 					case '5':
 					{
-						/*cout << "Veuillez entrer le nom de la ville de d'arrivé" << endl;
+						cout << "Veuillez entrer le nom de la ville de d'arrivé" << endl;
 						cin >> action;
-						cout << "Saisissez le chemin d'acces pour votre Sauvegarde." << endl;
+						cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 						cin >> nomFichier;
 
 						if (!ChargementVA(nomFichier, action))
@@ -424,18 +423,17 @@ void Catalogue::MenuSave()
 						{
 							cout << "Chargé !" << endl;
 						}
-						*/
-						cout << "méthode non fonctionnel" << endl;
+						
 						break;
 					}
 
 					case '6':
 					{
-						/*cout << "Veuillez entrer le nom de la ville de départ" << endl;
+						cout << "Veuillez entrer le nom de la ville de départ" << endl;
 						cin >> action;
 						cout << "Veuillez entrer le nom de la ville de d'arrivé" << endl;
 						cin >> action1;
-						cout << "Saisissez le chemin d'acces pour votre Sauvegarde." << endl;
+						cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 						cin >> nomFichier;
 
 						if (!ChargementVDA(nomFichier, action,action1))
@@ -446,15 +444,14 @@ void Catalogue::MenuSave()
 						{
 							cout << "Chargé !" << endl;
 						}
-						*/
-						cout << "méthode non fonctionnel" << endl;
+						
 						break;
 						
 					}
 
 					case '7':
 					{
-						MenuSave();
+						//MenuSave();
 						break;
 					
 					}
@@ -775,6 +772,7 @@ bool Catalogue::ChargementAll(string chemin)
 	{
 		string motTemporaire;
 		int i = 0;
+
 		while (fichierEntree >> motTemporaire)
 		{
 			cout << ++i << endl;
@@ -787,7 +785,7 @@ bool Catalogue::ChargementAll(string chemin)
 				fichierEntree >> nbComposants;
 				//convertir le string pris du flux d'entrée en entier
 				int entier = nbComposants[0]-48;
-				TrajetCompose* trajetComposeRetour;
+				TrajetCompose* trajetComposeRetour = NULL;
 				//cout << entier;
 				for( int j=0 ; j < entier ; j++)
 				{
@@ -835,7 +833,7 @@ bool Catalogue::ChargementType(string chemin,bool type)
 				fichierEntree >> nbComposants;
 				//convertir le string pris du flux d'entrée en entier
 				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour;
+				TrajetCompose* trajetComposeRetour = NULL;
 				for (int j = 0; j < entier; j++)
 				{
 					//Allouer l'espace mémoire pour la première fois
@@ -860,7 +858,7 @@ bool Catalogue::ChargementType(string chemin,bool type)
 	return acharge;
 }//Fin de Chargement
 
-/*bool Catalogue::ChargementVD(string chemin,const char vd[20])
+bool Catalogue::ChargementVD(string chemin,const char vd[20])
 {
 	ifstream fichierEntree(chemin);
 	bool acharge;
@@ -881,13 +879,17 @@ bool Catalogue::ChargementType(string chemin,bool type)
 					AjouterTrajet(test);
 					i++;
 				}
+				else
+				{
+					delete test;
+				}
 			}
 			else if (motTemporaire.compare("TC") == 0 )
 			{
 				fichierEntree >> nbComposants;
 				//convertir le string pris du flux d'entrée en entier
 				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour;
+				TrajetCompose* trajetComposeRetour = NULL;
 				for (int j = 0; j < entier; j++)
 				{
 					//Allouer l'espace mémoire pour la première fois
@@ -904,6 +906,10 @@ bool Catalogue::ChargementType(string chemin,bool type)
 				{
 					AjouterTrajet(trajetComposeRetour);
 					i++;
+				}
+				else
+				{
+					delete trajetComposeRetour;
 				}
 			}
 		}
@@ -926,13 +932,19 @@ bool Catalogue::ChargementVA(string chemin,const char va[20])
 		while (fichierEntree >> motTemporaire)
 		{
 
-
+			TrajetSimple* test;
 			if (motTemporaire.compare("TS") == 0 )
 			{
-				if (strcmp(creerTrajetSimple(fichierEntree)->EnvoyerVilleArrivee(), va) == 0)
+
+				test = creerTrajetSimple(fichierEntree);
+				if (strcmp(test->EnvoyerVilleArrivee(), va) == 0)
 				{
-					AjouterTrajet(creerTrajetSimple(fichierEntree));
+					AjouterTrajet(test);
 					i++;
+				}
+				else
+				{
+					delete test;
 				}
 			}
 			else if (motTemporaire.compare("TC") == 0 )
@@ -940,7 +952,7 @@ bool Catalogue::ChargementVA(string chemin,const char va[20])
 				fichierEntree >> nbComposants;
 				//convertir le string pris du flux d'entrée en entier
 				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour;
+				TrajetCompose* trajetComposeRetour = NULL;
 				for (int j = 0; j < entier; j++)
 				{
 					//Allouer l'espace mémoire pour la première fois
@@ -957,6 +969,10 @@ bool Catalogue::ChargementVA(string chemin,const char va[20])
 				{
 					AjouterTrajet(trajetComposeRetour);
 					i++;
+				}
+				else
+				{
+					delete trajetComposeRetour;
 				}
 			}
 		}
@@ -976,16 +992,21 @@ bool Catalogue::ChargementVDA(string chemin,const char vd[20],const char va[20])
 	{
 		string motTemporaire;
 		int i = 0;
+		TrajetSimple* test;
 		while (fichierEntree >> motTemporaire)
 		{
 
-
 			if (motTemporaire.compare("TS") == 0 )
 			{
-				if (strcmp(creerTrajetSimple(fichierEntree)->EnvoyerVilleDepart(), vd) == 0 && strcmp(creerTrajetSimple(fichierEntree)->EnvoyerVilleArrivee(), va) == 0)
+				test = creerTrajetSimple(fichierEntree);
+				if (strcmp(test->EnvoyerVilleDepart(), vd) == 0 && strcmp(test->EnvoyerVilleArrivee(), va) == 0)
 				{
 					AjouterTrajet(creerTrajetSimple(fichierEntree));
 					i++;
+				}
+				else
+				{
+					delete test;
 				}
 			}
 			else if (motTemporaire.compare("TC") == 0 )
@@ -993,7 +1014,7 @@ bool Catalogue::ChargementVDA(string chemin,const char vd[20],const char va[20])
 				fichierEntree >> nbComposants;
 				//convertir le string pris du flux d'entrée en entier
 				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour;
+				TrajetCompose* trajetComposeRetour =NULL;
 				for (int j = 0; j < entier; j++)
 				{
 					//Allouer l'espace mémoire pour la première fois
@@ -1006,10 +1027,14 @@ bool Catalogue::ChargementVDA(string chemin,const char vd[20],const char va[20])
 						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
 					}
 				}
-				if (strcmp(creerTrajetSimple(fichierEntree)->EnvoyerVilleDepart(), vd) == 0 && strcmp(creerTrajetSimple(fichierEntree)->EnvoyerVilleArrivee(), va) == 0)
+				if (strcmp(trajetComposeRetour->EnvoyerVilleDepart(), vd) == 0 && strcmp(trajetComposeRetour->EnvoyerVilleArrivee(), va) == 0)
 				{
 					AjouterTrajet(trajetComposeRetour);
 					i++;
+				}
+				else
+				{
+					delete trajetComposeRetour;
 				}
 			}
 		}
@@ -1047,7 +1072,7 @@ bool Catalogue::ChargementSelection(string chemin,const int n, const int m)
 				fichierEntree >> nbComposants;
 				//convertir le string pris du flux d'entrée en entier
 				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour;
+				TrajetCompose* trajetComposeRetour = NULL;
 				for (int j = 0; j < entier; j++)
 				{
 					//Allouer l'espace mémoire pour la première fois
@@ -1074,7 +1099,7 @@ bool Catalogue::ChargementSelection(string chemin,const int n, const int m)
 
 	return acharge;
 }//Fin de Chargement
-*/
+
 
 TrajetSimple* Catalogue::creerTrajetSimple(ifstream &fichierEntree)
 {

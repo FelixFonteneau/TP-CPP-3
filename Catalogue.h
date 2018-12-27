@@ -119,7 +119,13 @@ public:
 	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
 	// false. La gestion de la validité de l'intervalle se fait dans le menu
 	
-	bool Chargement(std::string chemin);
+	bool ChargementAll(std::string chemin);
+	bool ChargementType(std::string chemin,bool type);
+	bool ChargementVD(std::string chemin,const char vd[20]);
+	bool ChargementVA(std::string chemin,const char va[20]);
+	bool ChargementVDA(std::string chemin,const char vd[20],const char va[20]);
+	bool ChargementSelection(std::string chemin, const int n,const int m);
+
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -144,6 +150,7 @@ protected:
 	// étants sur le input stream et creer un nouveau trajet simple a partir
 	// de ces caracterisiques sur le tas.
 	// Contrat : Il faut qu'il y ai au moins trois mots sur le input stream
+	
 
 //----------------------------------------------------- Attributs protégés
     CollectionTrajet trajetsDisponibles;

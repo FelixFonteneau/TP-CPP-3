@@ -76,8 +76,10 @@ void TrajetCompose::Enregistrer(ofstream & fout) const
 {
 	for (unsigned int i = 0; i < trajetsComposants.EnvoyerCard(); i++)
 	{
+		
+		if (i == 0)
+			fout <<" "<< trajetsComposants.EnvoyerCard(); //afficher le nombre de trajets composants
 		(trajetsComposants.EnvoyerNiemeTrajet(i)).Enregistrer(fout);
-		fout << ":";
 	}
 }// Fin de Enregistrer
 

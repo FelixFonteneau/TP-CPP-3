@@ -31,10 +31,6 @@ public:
 //----------------------------------------------------- Méthodes publiques
     virtual void Afficher () const = 0;
 
-   // virtual void AfficherFichier () const = 0;
-    //mode d'emploi : Affiche le trajet pour la sauvegarde  
-    //dans la sortie standard.
-
     virtual bool EnvoyerType () const = 0;
     //mode d'emploi : Envoi un bool pour savoir le type du fichier
     //envoi 0 pour un trajet simple et 1 pour trajet compose.

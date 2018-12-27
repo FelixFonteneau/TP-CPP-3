@@ -53,7 +53,7 @@ void TrajetSimple::Afficher(void) const
 
 void TrajetSimple::Enregistrer(ofstream & fout) const
 { 
-	fout << villeDepart << " " << villeArrivee << " " << moyenDeTransport;
+	fout <<" " << villeDepart << " " << villeArrivee << " " << moyenDeTransport ;
 }//-----Fin Enregistrer
 
 //-------------------------------------------- Constructeurs - destructeur

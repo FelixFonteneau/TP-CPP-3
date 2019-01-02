@@ -1057,12 +1057,10 @@ bool Catalogue::ChargementSelection(string chemin,const unsigned  int n, const u
 		unsigned int i = 0;
 		while (fichierEntree >> motTemporaire)
 		{
-
-
 			if (motTemporaire.compare("TS") == 0 )
 			{
 				i++;
-				if (i >= n || i <= m) 
+				if (i >= n && i <= m) 
 				{
 					AjouterTrajet(creerTrajetSimple(fichierEntree));
 					cptTrajetsSimples++;
@@ -1075,6 +1073,8 @@ bool Catalogue::ChargementSelection(string chemin,const unsigned  int n, const u
 				//convertir le string pris du flux d'entrée en entier
 				int entier = nbComposants[0] - 48;
 				TrajetCompose* trajetComposeRetour = NULL;
+				if (i >= n && i <= m)
+				{
 				for ( int j = 0; j < entier; j++)
 				{
 					//Allouer l'espace mémoire pour la première fois
@@ -1087,8 +1087,7 @@ bool Catalogue::ChargementSelection(string chemin,const unsigned  int n, const u
 						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
 					}
 				}
-				if (i >= n || i <= m)
-				{
+				
 					AjouterTrajet(trajetComposeRetour);
 					cptTrajetsComposes++;
 				}

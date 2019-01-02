@@ -5,7 +5,7 @@
     copyright            : (C) 2018 par Felix FONTENEAU et Houda OUHSSAIN
     e-mail               : felix.fonteneau@insa-lyon.fr / houda.ouhssain@insa-lyon.fr
 ***************************************************************************************/
-
+#define _CRT_SECURE_NO_WARNINGS
 //---------- Interface de la classe <Catalogue> (fichier Catalogue.h) ----------------
 #if ! defined ( CATALOGUE_H )
 #define CATALOGUE_H
@@ -73,13 +73,13 @@ public:
     // Contrat : vDep (et vFin) appartiennent à l'ensemble des villes
     // de départ (et fin, respectivement) dans le catalogue.
 
-	bool SauvegardeAll(ofstream & fout,const char chemin[20]) const;
+	bool SauvegardeAll(ofstream & fout,string chemin) const;
 	//Mode d'emploi : Cette fonction permet d'enregistrer tous les trajets du catalogue 
 	// dans le fichier dont le flux de sortie et le nom du fichier sont passés en paramètre. 
     // Contrat : Si l'acces au fichier est impossible, la fonction retournera
     // false.
 
-	bool SauvegardeType(ofstream & fout, const char chemin[20], bool type) const;
+	bool SauvegardeType(ofstream & fout, string chemin, bool type) const;
 	// Mode d'emploi : Cette fonction permet d'enregistrer tous les trajets du catalogue dont le type
     // dépend de la valeur de "bool type ": 0 --> un trajet simple et 1--> un trajet composé
     //dans le fichier dont le nom et le flux de sortie sont aussi passé en paramètre. 
@@ -87,7 +87,7 @@ public:
     // Contrat :Si l'acces au fichier est impossible, la fonction retournera
     // false
 
-	bool SauvegardeVD(ofstream & fout, const char chemin[20], const char vd[20]) const;
+	bool SauvegardeVD(ofstream & fout,string chemin, const char* vd) const;
 	// Mode d'emploi:C ette fonction permet d'enregistrer tous les trajets du catalogue dont la ville 
 	// de départ correspond au tableau de caractères passé en paramètre
 	//dans le fichier dont le nom etle flux de sortie sont aussi passés en paramètre. 
@@ -95,7 +95,7 @@ public:
 	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
     // false.
 	
-	bool SauvegardeVA(ofstream & fout, const char chemin[20], const char va [20]) const;
+	bool SauvegardeVA(ofstream & fout, string chemin, const char *va) const;
 	// Mode d'emploi: Cette fonction permet d'enregistrer tous les trajets du catalogue dont la ville 
     // d'arrivée correspond au tableau de caractères passé en paramètre
    //dans le fichier dont le nom et le flux de sortie sont aussi passés en paramètre. 
@@ -103,16 +103,16 @@ public:
    // Contrat :Si l'acces au fichier est impossible, la fonction retournera
    // false.
 
-	bool SauvegardeVDA(ofstream & fout, const char chemin[20], const char vd[20],const char va [20]) const;
-	// Mode d'emploi:C ette fonction permet d'enregistrer tous les trajets du catalogue dont la ville 
+	bool SauvegardeVDA(ofstream & fout, string chemin, const char* vd,const char *va ) const;
+	// Mode d'emploi:Cette fonction permet d'enregistrer tous les trajets du catalogue dont la ville 
     // de départ et la ville d'arrivée correspondent aux tableau de caractères passés en paramètre
     //dans le fichier dont le nom etle flux de sortie sont aussi passés en paramètre. 
     // La fonction renvoie false si aucun trajet n'a été ajouté au fichier et true sinon.
     // Contrat :Si l'acces au fichier est impossible, la fonction retournera
     // false.
 
-	bool SauvegardeSelec(ofstream & fout, const char chemin[20],unsigned const int n,const unsigned int m) const;
-	// Mode d'emploi:Cette fonction permet d'enregistrer tous les trajets du catalogue contenu dans l'intervalle
+	bool SauvegardeSelec(ofstream & fout, string chemin,unsigned const int n,const unsigned int m) const;
+	// Mode d'emploi : Cette fonction permet d'enregistrer tous les trajets du catalogue contenus dans l'intervalle
 	//qui a comme borne inférieur "n" et borne supérieur "m"
 	//dans le fichier dont le nom etle flux de sortie sont aussi passés en paramètre. 
 	// La fonction renvoie false si aucun trajet n'a été ajouté au fichier et true sinon.
@@ -120,11 +120,51 @@ public:
 	// false. La gestion de la validité de l'intervalle se fait dans le menu
 	
 	bool ChargementAll(std::string chemin);
+	// Mode d'emploi : Cette fonction permet de recuperer tous les trajets 
+	// du fichier, dont le flux d'entrée est passé en paramètre, pour les ajouter dans le catalogue.
+	// La fonction renvoie false si aucun trajet n'a été récupéré du fichier et true sinon.
+    // Contrat :Si l'acces au fichier est impossible, la fonction retournera
+	// false.
+	
 	bool ChargementType(std::string chemin,bool type);
-	bool ChargementVD(std::string chemin,const char vd[20]);
-	bool ChargementVA(std::string chemin,const char va[20]);
-	bool ChargementVDA(std::string chemin,const char vd[20],const char va[20]);
+	// Mode d'emploi : Cette fonction permet de recuperer les trajets simples ou 
+	//les trajets Composés contenus dans le fichier dont le flux d'entrée est passé en paramètre, 7
+	//pour les ajouter dans le catalogue.
+	// le choix du trajet simple ou trajet composé dépend de la valeur
+	//de "bool type ": 0 --> un trajet simple et 1--> un trajet composé
+	// La fonction renvoie false si aucun trajet n'a été récupéré du fichier et true sinon.
+	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
+	// false.
+	bool ChargementVD(std::string chemin,const char* vd);
+	// Mode d'emploi : Cette fonction permet de récuperer les trajets, dont la ville
+	// de départ est donnée en entreé, du fichier dont le flux d'entrée est passé en paramètre, 
+	// pour les ajouter dans le catalogue.
+	// La fonction renvoie false si aucun trajet n'a été récupéré du fichier et true sinon.
+	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
+	// false.
+	bool ChargementVA(std::string chemin,const char* va);
+	// Mode d'emploi : Cette fonction permet de récuperer les trajets, dont la ville
+	// d'arrivée est donnée en entreé, du fichier dont le flux d'entrée est passé en paramètre, 
+	// pour les ajouter dans le catalogue.
+	// La fonction renvoie false si aucun trajet n'a été récupéré du fichier et true sinon.
+	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
+	// false.
+	bool ChargementVDA(std::string chemin,const char* vd,const char *va);
+	// Mode d'emploi : Cette fonction permet de récuperer les trajets, dont la ville
+	// de départ et d'arrivée sont données en entreé, du fichier dont le flux d'entrée est passé en paramètre, 
+	// pour les ajouter dans le catalogue.
+	// La fonction renvoie false si aucun trajet n'a été récupéré du fichier et true sinon.
+	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
+	// false.
+
 	bool ChargementSelection(std::string chemin, const int n,const int m);
+	// Mode d'emploi : Cette fonction permet de récupérer tous les trajets du catalogue contenus dans l'intervalle
+	//qui a comme borne inférieur "n" et borne supérieur "m"
+	//du fichier dont le nom etle flux d'entrée sont aussi passés en paramètre. 
+	// La fonction renvoie false si aucun trajet n'a été ajouté au fichier et true sinon.
+	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
+	// false. La gestion de la validité de l'intervalle se fait dans le menu
+
 
 
 

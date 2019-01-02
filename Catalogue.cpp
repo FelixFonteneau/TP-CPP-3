@@ -276,16 +276,18 @@ void Catalogue::MenuSave()
 			}
 			case '8':
 			{
-				/*int nbLignes = 0;
-				string cheminFichier;
+				unsigned int nbLignes = 0;
 				cout << "Saisissez le chemin d'acces pour votre Sauvegarde." << endl;
-				cin >> cheminFichier;
+				cin >>nomFichier;
+				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 				string lignes;
-				ifstream in(" C:\\Users\\Houda\\Desktop\\Programmation\\TP-CPP-3-master\\Code\\test14.doc");
+				ifstream in;
+				in.open(nomFichier);
 				while (getline(in, lignes))
 				{
 					nbLignes++;
 				}
+				in.close();
 
 				cout << "Veuillez entrer un nombre entre 1 et" << nbLignes << endl;
 				unsigned int n;
@@ -307,13 +309,13 @@ void Catalogue::MenuSave()
 
 				if (!ChargementSelection(nomFichier,n,m))
 				{
-					cout << "erreur de chargement dans le fichier : " << cheminFichier << endl;
+					cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
 				}
 				else
 				{
 					cout << "Chargé !" << endl;
 				}
-				*/
+				
 				cout << "méthode non fonctionnel" << endl;
 				break;
 			}
@@ -1043,7 +1045,7 @@ bool Catalogue::ChargementVDA(string chemin,const char* vd,const char* va)
 
 	return acharge;
 }//------Fin de ChargementVDA
-bool Catalogue::ChargementSelection(string chemin,const int n, const int m)
+bool Catalogue::ChargementSelection(string chemin,const unsigned  int n, const unsigned int m)
 {
 	ifstream fichierEntree(chemin);
 	bool acharge;
@@ -1052,7 +1054,7 @@ bool Catalogue::ChargementSelection(string chemin,const int n, const int m)
 	{
 		string motTemporaire;
 		//Calcul du nombre de Trajet
-		int i = 0;
+		unsigned int i = 0;
 		while (fichierEntree >> motTemporaire)
 		{
 
@@ -1073,7 +1075,7 @@ bool Catalogue::ChargementSelection(string chemin,const int n, const int m)
 				//convertir le string pris du flux d'entrée en entier
 				int entier = nbComposants[0] - 48;
 				TrajetCompose* trajetComposeRetour = NULL;
-				for (int j = 0; j < entier; j++)
+				for ( int j = 0; j < entier; j++)
 				{
 					//Allouer l'espace mémoire pour la première fois
 					if (j == 0)

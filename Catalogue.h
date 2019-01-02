@@ -157,7 +157,7 @@ public:
 	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
 	// false.
 
-	bool ChargementSelection(std::string chemin, const int n,const int m);
+	bool ChargementSelection(std::string chemin, const unsigned int n,const unsigned int m);
 	// Mode d'emploi : Cette fonction permet de récupérer tous les trajets du catalogue contenus dans l'intervalle
 	//qui a comme borne inférieur "n" et borne supérieur "m"
 	//du fichier dont le nom etle flux d'entrée sont aussi passés en paramètre. 

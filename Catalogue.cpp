@@ -254,7 +254,7 @@ void Catalogue::MenuSave()
 				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 				if (!ChargementAll(nomFichier))
 				{
-					cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
+					cout << "Erreur, le fichier : " << nomFichier << " n'existe pas ou ne peut pas etre ouvert." << endl;
 				}
 				else
 				{
@@ -281,7 +281,7 @@ void Catalogue::MenuSave()
 				}
 				if (!ChargementType(nomFichier,nb))
 				{
-					cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
+					cout << "Erreur, le fichier : " << nomFichier << " n'existe pas ou ne peut pas etre ouvert." << endl;
 				}
 				else
 				{
@@ -299,49 +299,58 @@ void Catalogue::MenuSave()
 			{
 				unsigned int nbLignes = 0;
 				cout << "Saisissez le chemin d'acces pour votre Sauvegarde." << endl;
-				cin >>nomFichier;
+				getline (cin,nomFichier);
 				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 				string lignes;
 				ifstream in;
 				in.open(nomFichier);
-				while (getline(in, lignes))
+				if (!in.fail())
 				{
-					nbLignes++;
-				}
-				in.close();
+					//récupération du nombre de ligne du fichier.
+					while (getline(in, lignes))
+					{
+						nbLignes++;
+					}
+					in.close();
 
-				cout << "Veuillez entrer un nombre entre 1 et" << nbLignes << endl;
-				unsigned int n;
-				unsigned int m;
-				cout << "Entrez la borne inferieur de l'intervalle" << endl;
-				getline (cin,strTmp);
-				n = stoul (strTmp,nullptr,0);
-				while (n < 1 || n > nbLignes)
-				{
-					cout << "Veuillez entrez un nombre entre 1 et " << nbLignes << endl;
+					cout << "Veuillez entrer un nombre entre 1 et" << nbLignes << endl;
+					unsigned int n;
+					unsigned int m;
+					cout << "Entrez la borne inferieur de l'intervalle" << endl;
 					getline (cin,strTmp);
-					n = stoul (strTmp,nullptr,0);
-				}
-				cout << "Entrez la borne supérieur de l'intervalle" << endl;
-				getline (cin,strTmp);
-				m = stoul (strTmp,nullptr,0);
-				while (m<n || m> nbLignes)
-				{
-					cout << "Veuillez entrez un nombre entre 1 et " << nbLignes << endl;
+					n = stoul (strTmp);
+					while (n < 1 || n > nbLignes)
+					{
+						cout << "Veuillez entrez un nombre entre 1 et " << nbLignes << endl;
+						getline (cin,strTmp);
+						n = stoul (strTmp);
+					}
+					cout << "Entrez la borne supérieur de l'intervalle" << endl;
 					getline (cin,strTmp);
 					m = stoul (strTmp,nullptr,0);
-				}
+					while (m<n || m> nbLignes)
+					{
+						cout << "Veuillez entrez un nombre entre 1 et " << nbLignes << endl;
+						getline (cin,strTmp);
+						m = stoul (strTmp,nullptr,0);
+					}
 
-				if (!ChargementSelection(nomFichier,n,m))
-				{
-					cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
+
+					if (!ChargementSelection(nomFichier,n,m))
+					{
+						cout << "Erreur, le fichier : " << nomFichier << " n'existe pas ou ne peut pas etre ouvert." << endl;
+					}
+					else
+					{
+						cout << "Chargé !" << endl;
+					}
 				}
 				else
 				{
-					cout << "Chargé !" << endl;
+					in.close();
+					cout << "Erreur, le fichier : " << nomFichier << " n'existe pas ou ne peut pas etre ouvert." << endl;
 				}
 
-				cout << "méthode non fonctionnel" << endl;
 				break;
 			}
 			case '9':
@@ -442,7 +451,7 @@ void Catalogue::MenuSave()
 
 						if (!ChargementVD(nomFichier,villeD))
 						{
-							cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
+							cout << "Erreur, le fichier : " << nomFichier << " n'existe pas ou ne peut pas etre ouvert." << endl;
 						}
 						else
 						{
@@ -458,14 +467,15 @@ void Catalogue::MenuSave()
 					case '5':
 					{
 						cout << "Veuillez entrer le nom de la ville de d'arrivée" << endl;
-						cin >>villeA;
+						getline (cin,strTmp);
+						strcpy(villeA, strTmp.c_str());
 						cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 						getline (cin,nomFichier);
 						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 
 						if (!ChargementVA(nomFichier, villeA))
 						{
-							cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
+							cout << "Erreur, le fichier : " << nomFichier << " n'existe pas ou ne peut pas etre ouvert." << endl;
 						}
 						else
 						{
@@ -489,7 +499,7 @@ void Catalogue::MenuSave()
 
 						if (!ChargementVDA(nomFichier, villeD,villeA))
 						{
-							cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
+							cout << "Erreur, le fichier : " << nomFichier << " n'existe pas ou ne peut pas etre ouvert." << endl;
 						}
 						else
 						{
@@ -828,7 +838,6 @@ bool Catalogue::ChargementAll(string chemin)
 		while (fichierEntree)
 		{
 			getline (fichierEntree,motTemporaire,'|');
-			cout << "blablabla";
 			if (motTemporaire.compare("TS") == 0)
 			{
 				AjouterTrajet(creerTrajetSimple(fichierEntree));
@@ -841,7 +850,7 @@ bool Catalogue::ChargementAll(string chemin)
 			}
 		}
 	}
-
+	fichierEntree.close();
 	return acharge;
 }//------Fin de ChargementAll
 
@@ -863,28 +872,12 @@ bool Catalogue::ChargementType(string chemin,bool type)
 			}
 			else if (motTemporaire.compare("TC") == 0 && type==1)
 			{
-				fichierEntree >> nbComposants;
-				//convertir le string pris du flux d'entrée en entier
-				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour = NULL;
-				for (int j = 0; j < entier; j++)
-				{
-					//Allouer l'espace mémoire pour la première fois
-					if (j == 0)
-					{
-						trajetComposeRetour = new TrajetCompose(creerTrajetSimple(fichierEntree));
-					}
-					else
-					{
-						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
-					}
-				}
-				AjouterTrajet(trajetComposeRetour);
+				AjouterTrajet(creerTrajetCompose(fichierEntree));
 				cptTrajetsComposes++;
 			}
 		}
 	}
-
+	fichierEntree.close();
 	return acharge;
 }//------Fin de ChargementType
 
@@ -896,12 +889,12 @@ bool Catalogue::ChargementVD(string chemin,const char* vd)
 	if ((acharge = !fichierEntree.fail()))
 	{
 		string motTemporaire;
-		TrajetSimple* test;
-		while (fichierEntree >> motTemporaire)
+		while (fichierEntree )
 		{
+			getline (fichierEntree,motTemporaire,'|');
 			if (motTemporaire.compare("TS") == 0)
 			{
-
+				TrajetSimple* test;
 				test = creerTrajetSimple(fichierEntree);
 				if (strcmp(test->EnvoyerVilleDepart(), vd) == 0)
 				{
@@ -915,22 +908,7 @@ bool Catalogue::ChargementVD(string chemin,const char* vd)
 			}
 			else if (motTemporaire.compare("TC") == 0 )
 			{
-				fichierEntree >> nbComposants;
-				//convertir le string pris du flux d'entrée en entier
-				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour = NULL;
-				for (int j = 0; j < entier; j++)
-				{
-					//Allouer l'espace mémoire pour la première fois
-					if (j == 0)
-					{
-						trajetComposeRetour = new TrajetCompose(creerTrajetSimple(fichierEntree));
-					}
-					else
-					{
-						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
-					}
-				}
+				TrajetCompose* trajetComposeRetour = creerTrajetCompose(fichierEntree);
 				if (strcmp(trajetComposeRetour->EnvoyerVilleDepart(), vd) == 0)
 				{
 					AjouterTrajet(trajetComposeRetour);
@@ -943,9 +921,10 @@ bool Catalogue::ChargementVD(string chemin,const char* vd)
 			}
 		}
 	}
-
+	fichierEntree.close();
 	return acharge;
 }//------Fin de ChargementVD
+
 bool Catalogue::ChargementVA(string chemin,const char* va)
 {
 	ifstream fichierEntree(chemin);
@@ -954,13 +933,12 @@ bool Catalogue::ChargementVA(string chemin,const char* va)
 	if ((acharge = !fichierEntree.fail()))
 	{
 		string motTemporaire;
-		while (fichierEntree >> motTemporaire)
+		while (fichierEntree)
 		{
-
-			TrajetSimple* test;
+			getline (fichierEntree,motTemporaire,'|');
 			if (motTemporaire.compare("TS") == 0 )
 			{
-
+				TrajetSimple* test;
 				test = creerTrajetSimple(fichierEntree);
 				if (strcmp(test->EnvoyerVilleArrivee(), va) == 0)
 				{
@@ -974,22 +952,7 @@ bool Catalogue::ChargementVA(string chemin,const char* va)
 			}
 			else if (motTemporaire.compare("TC") == 0 )
 			{
-				fichierEntree >> nbComposants;
-				//convertir le string pris du flux d'entrée en entier
-				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour = NULL;
-				for (int j = 0; j < entier; j++)
-				{
-					//Allouer l'espace mémoire pour la première fois
-					if (j == 0)
-					{
-						trajetComposeRetour = new TrajetCompose(creerTrajetSimple(fichierEntree));
-					}
-					else
-					{
-						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
-					}
-				}
+				TrajetCompose* trajetComposeRetour = creerTrajetCompose(fichierEntree);
 				if (strcmp(trajetComposeRetour->EnvoyerVilleArrivee(), va) == 0)
 				{
 					AjouterTrajet(trajetComposeRetour);
@@ -1003,9 +966,10 @@ bool Catalogue::ChargementVA(string chemin,const char* va)
 		}
 
 	}
-
+	fichierEntree.close();
 	return acharge;
 }//------Fin de ChargementVA
+
 bool Catalogue::ChargementVDA(string chemin,const char* vd,const char* va)
 {
 	ifstream fichierEntree(chemin);
@@ -1014,12 +978,12 @@ bool Catalogue::ChargementVDA(string chemin,const char* vd,const char* va)
 	if ((acharge = !fichierEntree.fail()))
 	{
 		string motTemporaire;
-		TrajetSimple* test;
-		while (fichierEntree >> motTemporaire)
+		while (fichierEntree)
 		{
-
+			getline (fichierEntree,motTemporaire,'|');
 			if (motTemporaire.compare("TS") == 0 )
 			{
+				TrajetSimple* test;
 				test = creerTrajetSimple(fichierEntree);
 				if (strcmp(test->EnvoyerVilleDepart(), vd) == 0 && strcmp(test->EnvoyerVilleArrivee(), va) == 0)
 				{
@@ -1033,22 +997,7 @@ bool Catalogue::ChargementVDA(string chemin,const char* vd,const char* va)
 			}
 			else if (motTemporaire.compare("TC") == 0 )
 			{
-				fichierEntree >> nbComposants;
-				//convertir le string pris du flux d'entrée en entier
-				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour =NULL;
-				for (int j = 0; j < entier; j++)
-				{
-					//Allouer l'espace mémoire pour la première fois
-					if (j == 0)
-					{
-						trajetComposeRetour = new TrajetCompose(creerTrajetSimple(fichierEntree));
-					}
-					else
-					{
-						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
-					}
-				}
+				TrajetCompose* trajetComposeRetour = creerTrajetCompose(fichierEntree);
 				if (strcmp(trajetComposeRetour->EnvoyerVilleDepart(), vd) == 0 && strcmp(trajetComposeRetour->EnvoyerVilleArrivee(), va) == 0)
 				{
 					AjouterTrajet(trajetComposeRetour);
@@ -1061,9 +1010,10 @@ bool Catalogue::ChargementVDA(string chemin,const char* vd,const char* va)
 			}
 		}
 	}
-
+	fichierEntree.close();
 	return acharge;
 }//------Fin de ChargementVDA
+
 bool Catalogue::ChargementSelection(string chemin,const unsigned  int n, const unsigned int m)
 {
 	ifstream fichierEntree(chemin);
@@ -1074,47 +1024,30 @@ bool Catalogue::ChargementSelection(string chemin,const unsigned  int n, const u
 		string motTemporaire;
 		//Calcul du nombre de Trajet
 		unsigned int i = 0;
-		while (fichierEntree >> motTemporaire)
+		while (fichierEntree)
 		{
-			if (motTemporaire.compare("TS") == 0 )
+			getline (fichierEntree,motTemporaire,'|');
+			if (motTemporaire.compare("TS") == 0 || motTemporaire.compare("TC") == 0)
+				++i;
+			if (i >= n && i<=m)
 			{
-				i++;
-				if (i >= n && i <= m)
+				if (motTemporaire.compare("TS") == 0 )
 				{
 					AjouterTrajet(creerTrajetSimple(fichierEntree));
 					cptTrajetsSimples++;
 				}
-			}
-			else if (motTemporaire.compare("TC") == 0 )
-			{
-				i++;
-				fichierEntree >> nbComposants;
-				//convertir le string pris du flux d'entrée en entier
-				int entier = nbComposants[0] - 48;
-				TrajetCompose* trajetComposeRetour = NULL;
-				if (i >= n && i <= m)
+				else if (motTemporaire.compare("TC") == 0 )
 				{
-				for ( int j = 0; j < entier; j++)
-				{
-					//Allouer l'espace mémoire pour la première fois
-					if (j == 0)
-					{
-						trajetComposeRetour = new TrajetCompose(creerTrajetSimple(fichierEntree));
-					}
-					else
-					{
-						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
-					}
-				}
-
-					AjouterTrajet(trajetComposeRetour);
+					AjouterTrajet(creerTrajetCompose(fichierEntree));
 					cptTrajetsComposes++;
 				}
-
+			}
+			else if (i > m) // on est sorti de la borne sup de l'interval, donc on sort
+			{
+				break;
 			}
 		}
 	}
-
 	return acharge;
 }///------Fin de ChargementSelection
 

@@ -71,14 +71,12 @@ void TrajetCompose::Afficher ( void ) const
 } //----- Fin de Méthode
 
 
-	
+
 void TrajetCompose::Enregistrer(ofstream & fout) const
 {
+  fout <<"|"<< trajetsComposants.EnvoyerCard(); //afficher le nombre de trajets composants
 	for (unsigned int i = 0; i < trajetsComposants.EnvoyerCard(); i++)
 	{
-		
-		if (i == 0)
-			fout <<" "<< trajetsComposants.EnvoyerCard(); //afficher le nombre de trajets composants
 		(trajetsComposants.EnvoyerNiemeTrajet(i)).Enregistrer(fout);
 	}
 }// Fin de Enregistrer
@@ -87,7 +85,7 @@ void TrajetCompose::Enregistrer(ofstream & fout) const
 TrajetCompose::TrajetCompose (const Trajet *t ) :
   trajetsComposants()
 // Algorithme : La logique utilisée est la même que pour les TrajetSimple,
-// ce dernier dispose simplement d'une CollectionTrajet en plus et ses 
+// ce dernier dispose simplement d'une CollectionTrajet en plus et ses
 // sont déterminés automatiquement
 {
 #ifdef MAP

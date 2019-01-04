@@ -20,17 +20,18 @@ int main(){
 	char * villeE = new char[20];
 	strcpy(villeE,"Lyon");
 	std::cout << "t1" << '\n';
-	TrajetSimple t1(villeD,villeA,Velo);
-	TrajetSimple t10(villeD,villeC,Train);
-	TrajetSimple t100(villeC,villeA,Velo);
+	TrajetSimple t1(villeD,villeA,"Velo");
+	TrajetSimple t10(villeD,villeC,"Train");
+	TrajetSimple t100(villeC,villeA,"Velo");
 
-	TrajetSimple t4(villeC,villeD,Train);
+	TrajetSimple t4(villeC,villeD,"Train");
 
 	t1.Afficher();
 	std::cout << "t20" << '\n';
-	TrajetSimple t20(villeA,villeE,Velo);
+	TrajetSimple t20(villeA,villeE,"Velo");
 	std::cout << "catalogue1 ajout 1" << '\n';
-	CollectionTrajet collection(t1,3);
+	CollectionTrajet collection(3);
+	collection.Ajouter(t1);
 	collection.Ajouter(t20);
 	std::cout << "trajet composé :" << '\n';
 	TrajetCompose tc1(t1);
@@ -49,7 +50,8 @@ int main(){
 
 	tc2.Afficher();
 
-	 Catalogue c(t1);
+	 Catalogue c();
+	 c.AjouterTrajet(t10);
 	 c.AjouterTrajet(tc1);
 	 c.AjouterTrajet(tc2);
 	 c.AjouterTrajet(t4);

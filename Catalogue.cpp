@@ -25,12 +25,9 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
-unsigned cptTrajetsSimples = 0;
-unsigned cptTrajetsComposes = 0;
 void Catalogue::Menu()
 {
-
-	Catalogue leCatalogue = Catalogue();
+		string strTmp;
 	char * villeDepartInit = new char[20];
 	char * villeArriveeInit = new char[20];
 	char * moyenDeTransportInit = new char[20];
@@ -51,7 +48,11 @@ void Catalogue::Menu()
 		cout << "3 : Recherche simple de trajets" << endl;
 		cout << "4 : Sauvegarde et chargement des trajets" << endl;
 		cout << "5 : Quitter l'application" << endl;
-		cin >> choix;
+
+
+
+		getline (cin,strTmp);
+	  choix = strTmp.c_str()[0];
 		cout << "===========================================================" << endl;
 		switch (choix)
 		{
@@ -64,11 +65,14 @@ void Catalogue::Menu()
 			case '1':
 			{
 				cout << "Saisissez la ville de depart" << endl;
-				cin >> villeDepartInit;
+				getline (cin,strTmp);
+				strcpy(villeDepartInit, strTmp.c_str());
 				cout << "Saisissez la ville d'arrivee" << endl;
-				cin >> villeArriveeInit;
+				getline (cin,strTmp);
+				strcpy(villeArriveeInit , strTmp.c_str());
 				cout << "Saisissez le moyen de transport" << endl;
-				cin >> moyenDeTransportInit;
+				getline (cin,strTmp);
+				strcpy(moyenDeTransportInit, strTmp.c_str());
 				trajetSimpleTmp = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
 				AjouterTrajet(trajetSimpleTmp);
 				cptTrajetsSimples++;
@@ -77,29 +81,35 @@ void Catalogue::Menu()
 
 			case '2':
 			{
-				cout << "Les entrees ne doivent pas comporter d'espaces !" << endl;
 				cout << "Un trajet compose comporte au moins 2 villes" << endl;
 				cout << "Entrez STOP pour valider la saisie du trajet" << endl;
 				cout << "Ville de depart : ";
-				cin >> villeDepartInit;
+				getline (cin,strTmp);
+				strcpy(villeDepartInit, strTmp.c_str());
 				cout << "Ville de d'arrivee : ";
-				cin >> villeArriveeInit;
+				getline (cin,strTmp);
+				strcpy(villeArriveeInit, strTmp.c_str());
 				cout << "Moyen de Transport : ";
-				cin >> moyenDeTransportInit;
+				getline (cin,strTmp);
+				strcpy(moyenDeTransportInit, strTmp.c_str());
 				trajetSimpleTmp = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
 				trajetComposeTmp = new TrajetCompose(trajetSimpleTmp);
 				strcpy(villeDepartInit, villeArriveeInit);
 				cout << "Etape suivante : ";
-				cin >> villeArriveeInit;
+				getline (cin,strTmp);
+				strcpy(villeArriveeInit, strTmp.c_str());
 				do
 				{
 					cout << "Moyen de Transport : ";
-					cin >> moyenDeTransportInit;
+					getline (cin,strTmp);
+					strcpy(moyenDeTransportInit, strTmp.c_str());
 					trajetSimpleTmp = new TrajetSimple(villeDepartInit, villeArriveeInit, moyenDeTransportInit);
 					trajetComposeTmp->Ajouter(trajetSimpleTmp);
 					strcpy(villeDepartInit, villeArriveeInit);
 					cout << "Etape suivante (ou STOP) : ";
-				} while (cin >> villeArriveeInit && strcmp(villeArriveeInit, "STOP") != 0);
+					getline (cin,strTmp);
+					strcpy(villeArriveeInit, strTmp.c_str());
+				} while (strcmp(villeArriveeInit, "STOP") != 0);
 				AjouterTrajet(trajetComposeTmp);
 				cptTrajetsComposes++;
 				break;
@@ -108,9 +118,11 @@ void Catalogue::Menu()
 			case '3':
 			{
 				cout << "Saisissez la ville de depart" << endl;
-				cin >> villeDepartInit;
+				getline (cin,strTmp);
+				strcpy(villeDepartInit, strTmp.c_str());
 				cout << "Saisissez la ville d'arrivee" << endl;
-				cin >> villeArriveeInit;
+				getline (cin,strTmp);
+				strcpy(villeArriveeInit, strTmp.c_str());
 				RechercherParcoursSimple(villeDepartInit, villeArriveeInit);
 				break;
 			}
@@ -135,14 +147,14 @@ void Catalogue::Menu()
 			}
 		}
 	} while (choix != '5');
-	
+
 }//-----Fin de Menu
 
 
 
 void Catalogue::MenuSave()
 {
-	string nomFichier;
+	string nomFichier, strTmp;
 	char unChoix = '1';
 	do
 	{
@@ -160,14 +172,15 @@ void Catalogue::MenuSave()
 		cout << "8 : Charger le catalogue selon une selection de trajets" << endl;
 		cout << endl;
 		cout << "9 : Retour au menu principal" << endl;
-		cin >> unChoix;
+		getline (cin,strTmp);
+		unChoix = strTmp.c_str()[0];
 		cout << "====================================================================" << endl;
 		switch (unChoix)
 		{
 			case '1':
 			{
 				cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
-				cin >> nomFichier;
+				getline (cin,nomFichier);
 				ofstream fout;
 				nomFichier = "Fichiers_Saved/"+nomFichier + ".doc";
 				SauvegardeAll(fout, nomFichier);
@@ -178,14 +191,16 @@ void Catalogue::MenuSave()
 			case '2':
 			{
 				cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
-				cin >> nomFichier;
+				getline (cin,nomFichier);
 				int nb;
 				cout << "Saisissez 0 pour sauvegarder les trajets simples ou 1 pour sauvegarder les trajets composés"<<endl;
-				cin >> nb;
+				getline (cin,strTmp);
+				nb = stoi (strTmp,nullptr,0);
 				while (nb != 0 && nb != 1)
 				{
 					cout << "Veuillez saisir 0 pour les trajets simples et 1 pour les trajets composés ! "<<endl;
-					cin >> nb;
+					getline (cin,strTmp);
+					nb = stoi (strTmp,nullptr,0);
 				}
 				ofstream fout;
 				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
@@ -206,21 +221,25 @@ void Catalogue::MenuSave()
 				unsigned int n;
 				unsigned int m ;
 				cout << "Entrez la borne inferieur de l'intervalle" << endl;
-				cin >> n;
+				getline (cin,strTmp);
+				n = stoul (strTmp,nullptr,0);
 				while(n < 1 || n >cptTrajetsSimples+ cptTrajetsComposes)
 				{
 					cout << "Veuillez entrez un nombre entre 1 et " << cptTrajetsSimples + cptTrajetsComposes <<endl;
-					cin >> n;
+					getline (cin,strTmp);
+					n = stoul (strTmp,nullptr,0);
 				}
 				cout << "Entrez la borne supérieur de l'intervalle" << endl;
-				cin >> m;
+				getline (cin,strTmp);
+				m = stoul (strTmp,nullptr,0);
 				while (m<n || m>cptTrajetsSimples + cptTrajetsComposes)
 				{
 					cout << "Veuillez entrez un nombre entre 1 et  " << cptTrajetsSimples + cptTrajetsComposes <<endl;
-					cin >> m;
+					getline (cin,strTmp);
+					m = stoul (strTmp,nullptr,0);
 				}
 				cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
-				cin >> nomFichier;
+				getline (cin,nomFichier);
 				ofstream fout;
 				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 				SauvegardeSelec(fout, nomFichier, n,m);
@@ -231,7 +250,7 @@ void Catalogue::MenuSave()
 			case '5':
 			{
 				cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
-				cin >> nomFichier;
+				getline (cin,nomFichier);
 				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 				if (!ChargementAll(nomFichier))
 				{
@@ -242,21 +261,23 @@ void Catalogue::MenuSave()
 					cout << "Chargé !" << endl;
 				}
 				break;
-				
+
 			}
 
 			case '6':
 			{
 				cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
-				cin >> nomFichier;
+				getline (cin,nomFichier);
 				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 				int nb;
 				cout << "saisissez 0 pour ne sauvegarder que les trajets simples et 1 pour les trajets composés" << endl;
-				cin >> nb;
+				getline (cin,strTmp);
+				nb = stoi (strTmp,nullptr,0);
 				while (nb != 0 && nb != 1)
 				{
 					cout << "Veuillez saisir 0 pour les trajets simples et 1 pour les trajets composés " << endl;
-					cin >> nb;
+					getline (cin,strTmp);
+					nb = stoi (strTmp,nullptr,0);
 				}
 				if (!ChargementType(nomFichier,nb))
 				{
@@ -293,18 +314,22 @@ void Catalogue::MenuSave()
 				unsigned int n;
 				unsigned int m;
 				cout << "Entrez la borne inferieur de l'intervalle" << endl;
-				cin >> n;
+				getline (cin,strTmp);
+				n = stoul (strTmp,nullptr,0);
 				while (n < 1 || n > nbLignes)
 				{
 					cout << "Veuillez entrez un nombre entre 1 et " << nbLignes << endl;
-					cin >> n;
+					getline (cin,strTmp);
+					n = stoul (strTmp,nullptr,0);
 				}
 				cout << "Entrez la borne supérieur de l'intervalle" << endl;
-				cin >> m;
+				getline (cin,strTmp);
+				m = stoul (strTmp,nullptr,0);
 				while (m<n || m> nbLignes)
 				{
 					cout << "Veuillez entrez un nombre entre 1 et " << nbLignes << endl;
-					cin >> m;
+					getline (cin,strTmp);
+					m = stoul (strTmp,nullptr,0);
 				}
 
 				if (!ChargementSelection(nomFichier,n,m))
@@ -315,7 +340,7 @@ void Catalogue::MenuSave()
 				{
 					cout << "Chargé !" << endl;
 				}
-				
+
 				cout << "méthode non fonctionnel" << endl;
 				break;
 			}
@@ -336,6 +361,7 @@ void Catalogue::MenuSave()
 
 		void Catalogue::MenuSaveVille()
 		{
+			string strTmp;
 			string nomFichier;
 			char leChoix = '1';
 			char * villeD = new char[20];
@@ -354,16 +380,18 @@ void Catalogue::MenuSave()
 				cout << "6 : Chargement selon la ville de départ et d'arrivée" << endl;
 				cout << endl;
 				cout << "7 : Retour au menu de sauvegarde" << endl;
-				cin >> leChoix;
+				getline (cin,strTmp);
+				leChoix = strTmp.c_str()[0];
 				cout << "============================================================" << endl;
 				switch (leChoix)
 				{
 					case '1':
 					{
 						cout << "Veuillez entrer le nom de la ville de départ"<<endl;
-						cin >> villeD;
+						getline (cin,strTmp);
+						strcpy(villeD, strTmp.c_str());
 						cout << "Veuillez entrez le nom du fichier que vous voulez sauvegarder" << endl;
-						cin >> nomFichier;
+						getline (cin,nomFichier);
 						ofstream fout;
 						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 						SauvegardeVD(fout, nomFichier, villeD);
@@ -374,9 +402,10 @@ void Catalogue::MenuSave()
 					case '2':
 					{
 						cout << "Veuillez entrer le nom de la ville d'arrivée"<<endl;
-						cin >> villeA;
+						getline (cin,strTmp);
+						strcpy(villeA, strTmp.c_str());
 						cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
-						cin >> nomFichier;
+						getline (cin,nomFichier);
 						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";;
 						ofstream fout;
 						SauvegardeVA(fout, nomFichier, villeA);
@@ -387,11 +416,13 @@ void Catalogue::MenuSave()
 					case '3':
 					{
 						cout << "Veuillez entrer le nom de la ville de départ"<<endl;
-						cin >> villeD;
+						getline (cin,strTmp);
+						strcpy(villeD, strTmp.c_str());
 						cout << "Veuillez entrer le nom de la ville d'arrivee"<<endl;
-						cin >> villeA;
+						getline (cin,strTmp);
+						strcpy(villeA, strTmp.c_str());
 						cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
-						cin >> nomFichier;
+						getline (cin,nomFichier);
 						ofstream fout;
 						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 						SauvegardeVDA(fout,nomFichier, villeD, villeA);
@@ -402,12 +433,13 @@ void Catalogue::MenuSave()
 					case '4':
 					{
 						cout << "Veuillez entrer le nom de la ville de départ" << endl;
-						cin >> villeD;
+						getline (cin,strTmp);
+						strcpy(villeD, strTmp.c_str());
 						cout << "Saisissez le chemin d'acces pour votre Chargement."<< endl;
-						cin >> nomFichier;
+						getline (cin,nomFichier);
 						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 
-					
+
 						if (!ChargementVD(nomFichier,villeD))
 						{
 							cout << "erreur de chargement dans le fichier : " << nomFichier << endl;
@@ -416,9 +448,9 @@ void Catalogue::MenuSave()
 						{
 							cout << "Chargé !" << endl;
 						}
-						
-						
-					
+
+
+
 
 						break;
 					}
@@ -428,7 +460,7 @@ void Catalogue::MenuSave()
 						cout << "Veuillez entrer le nom de la ville de d'arrivée" << endl;
 						cin >>villeA;
 						cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
-						cin >> nomFichier;
+						getline (cin,nomFichier);
 						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 
 						if (!ChargementVA(nomFichier, villeA))
@@ -439,18 +471,20 @@ void Catalogue::MenuSave()
 						{
 							cout << "Chargé !" << endl;
 						}
-						
+
 						break;
 					}
 
 					case '6':
 					{
 						cout << "Veuillez entrer le nom de la ville de départ" << endl;
-						cin >> villeD;
+						getline (cin,strTmp);
+						strcpy(villeD, strTmp.c_str());
 						cout << "Veuillez entrer le nom de la ville de d'arrivée" << endl;
-						cin >> villeA;
+						getline (cin,strTmp);
+						strcpy(villeA, strTmp.c_str());
 						cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
-						cin >> nomFichier;
+						getline (cin,nomFichier);
 						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
 
 						if (!ChargementVDA(nomFichier, villeD,villeA))
@@ -461,9 +495,9 @@ void Catalogue::MenuSave()
 						{
 							cout << "Chargé !" << endl;
 						}
-						
+
 						break;
-						
+
 					}
 
 					case '7':
@@ -471,8 +505,8 @@ void Catalogue::MenuSave()
 						delete[] villeA;
 						delete[]villeD;
 						break;
-						
-					
+
+
 					}
 
 					default:
@@ -541,23 +575,23 @@ bool Catalogue::SauvegardeAll(ofstream & fout,string chemin) const
 			string typeTrajet;
 			if (iemeTrajet.EnvoyerType())
 			{
-				typeTrajet = "TC";
+				typeTrajet = "|TC";
 			}
 			else
 			{
-				typeTrajet = "TS";
+				typeTrajet = "|TS";
 			}
 			fout << typeTrajet;
 			iemeTrajet.Enregistrer(fout);
 			trajetsSaved++;
-			fout << endl;
+			fout << '|' << endl;
 		}
 		save = true;
 	}
 	else
 	{
 		cerr << "impossible d'ouvrir le fichier";
-		
+
 	}
 	fout.close();
 	if (trajetsSaved == 0)
@@ -583,16 +617,16 @@ bool Catalogue::SauvegardeType(ofstream & fout, string chemin,bool type) const
 			{
 				if (type)
 				{
-					typeTrajet = "TC";
+					typeTrajet = "|TC";
 				}
 				else
 				{
-					typeTrajet = "TS";
+					typeTrajet = "|TS";
 				}
 				fout << typeTrajet;
 				iemeTrajet.Enregistrer(fout);
 				trajetsSaved++;
-				fout << endl;
+				fout  << '|' << endl;
 				save = true;
 			}
 
@@ -627,16 +661,16 @@ bool Catalogue::SauvegardeVD(ofstream & fout, string chemin, const char* vd) con
 				if (iemeTrajet.EnvoyerType())
 				{
 
-					typeTrajet = "TC";
+					typeTrajet = "|TC";
 				}
 				else
 				{
-					typeTrajet = "TS";
+					typeTrajet = "|TS";
 				}
 				fout << typeTrajet;
 				iemeTrajet.Enregistrer(fout);
 				trajetsSaved++;
-				fout << endl;
+				fout << '|' << endl;
 			}
 				save = true;
 		}
@@ -672,16 +706,16 @@ bool Catalogue::SauvegardeVA(ofstream & fout, string chemin, const char* va) con
 				if (iemeTrajet.EnvoyerType())
 				{
 
-					typeTrajet = "TC";
+					typeTrajet = "|TC";
 				}
 				else
 				{
-					typeTrajet = "TS";
+					typeTrajet = "|TS";
 				}
 				fout << typeTrajet;
 				iemeTrajet.Enregistrer(fout);
 				trajetsSaved++;
-				fout << endl;
+				fout  << '|' << endl;
 			}
 			save = true;
 		}
@@ -715,16 +749,16 @@ bool Catalogue::SauvegardeVDA(ofstream & fout, string  chemin, const char* vd, c
 				if (iemeTrajet.EnvoyerType())
 				{
 
-					typeTrajet = "TC";
+					typeTrajet = "|TC";
 				}
 				else
 				{
-					typeTrajet = "TS";
+					typeTrajet = "|TS";
 				}
 				fout << typeTrajet;
 				iemeTrajet.Enregistrer(fout);
 				trajetsSaved++;
-				fout << endl;
+				fout  << '|' << endl;
 			}
 			save = true;
 		}
@@ -756,16 +790,16 @@ bool Catalogue::SauvegardeSelec(ofstream & fout, string chemin, const unsigned i
 			string typeTrajet;
 			if (iemeTrajet.EnvoyerType())
 			{
-				typeTrajet = "TC";
+				typeTrajet = "|TC";
 			}
 			else
 			{
-				typeTrajet = "TS";
+				typeTrajet = "|TS";
 			}
 			fout << typeTrajet;
 			iemeTrajet.Enregistrer(fout);
 			trajetsSaved++;
-			fout << endl;
+			fout  << '|' << endl;
 		}
 		save = true;
 	}
@@ -786,13 +820,15 @@ bool Catalogue::ChargementAll(string chemin)
 {
 	ifstream fichierEntree(chemin);
 	bool acharge;
-	string nbComposants; 
+	string nbComposants;
 	if ((acharge = !fichierEntree.fail()))
 	{
 		string motTemporaire;
 
-		while (fichierEntree >> motTemporaire)
+		while (fichierEntree)
 		{
+			getline (fichierEntree,motTemporaire,'|');
+			cout << "blablabla";
 			if (motTemporaire.compare("TS") == 0)
 			{
 				AjouterTrajet(creerTrajetSimple(fichierEntree));
@@ -800,30 +836,13 @@ bool Catalogue::ChargementAll(string chemin)
 			}
 			else if (motTemporaire.compare("TC") == 0)
 			{
-				fichierEntree >> nbComposants;
-				//convertir le string pris du flux d'entrée en entier
-				int entier = nbComposants[0]-48;
-				TrajetCompose* trajetComposeRetour = NULL;
-				//cout << entier;
-				for( int j=0 ; j < entier ; j++)
-				{
-					//Allouer l'espace mémoire pour la première fois
-					if (j == 0)
-					{
-						trajetComposeRetour = new TrajetCompose(creerTrajetSimple(fichierEntree));
-					}
-					else
-					{
-						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
-					}
-				}
-				AjouterTrajet(trajetComposeRetour);
+				AjouterTrajet(creerTrajetCompose(fichierEntree));
 				cptTrajetsComposes++;
 			}
 		}
 	}
 
-	return acharge;	
+	return acharge;
 }//------Fin de ChargementAll
 
 bool Catalogue::ChargementType(string chemin,bool type)
@@ -834,9 +853,9 @@ bool Catalogue::ChargementType(string chemin,bool type)
 	if ((acharge = !fichierEntree.fail()))
 	{
 		string motTemporaire;
-		while (fichierEntree >> motTemporaire)
+		while (fichierEntree)
 		{
-			
+			getline (fichierEntree,motTemporaire,'|');
 			if (motTemporaire.compare("TS") == 0 && type==0)
 			{
 				AjouterTrajet(creerTrajetSimple(fichierEntree));
@@ -881,7 +900,7 @@ bool Catalogue::ChargementVD(string chemin,const char* vd)
 		while (fichierEntree >> motTemporaire)
 		{
 			if (motTemporaire.compare("TS") == 0)
-			{ 
+			{
 
 				test = creerTrajetSimple(fichierEntree);
 				if (strcmp(test->EnvoyerVilleDepart(), vd) == 0)
@@ -982,7 +1001,7 @@ bool Catalogue::ChargementVA(string chemin,const char* va)
 				}
 			}
 		}
-		
+
 	}
 
 	return acharge;
@@ -1060,7 +1079,7 @@ bool Catalogue::ChargementSelection(string chemin,const unsigned  int n, const u
 			if (motTemporaire.compare("TS") == 0 )
 			{
 				i++;
-				if (i >= n && i <= m) 
+				if (i >= n && i <= m)
 				{
 					AjouterTrajet(creerTrajetSimple(fichierEntree));
 					cptTrajetsSimples++;
@@ -1087,11 +1106,11 @@ bool Catalogue::ChargementSelection(string chemin,const unsigned  int n, const u
 						trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
 					}
 				}
-				
+
 					AjouterTrajet(trajetComposeRetour);
 					cptTrajetsComposes++;
 				}
-				
+
 			}
 		}
 	}
@@ -1105,9 +1124,13 @@ TrajetSimple* Catalogue::creerTrajetSimple(ifstream &fichierEntree)
 	char * villeDtmp = new char[20];
 	char * villeAtmp = new char[20];
 	char * moyenDeTtmp = new char[20];
-	fichierEntree >> villeDtmp;
-	fichierEntree >> villeAtmp;
-	fichierEntree >> moyenDeTtmp;
+	string strTmp;
+	getline (fichierEntree,strTmp,'|');
+	strcpy(villeDtmp, strTmp.c_str());
+	getline (fichierEntree,strTmp,'|');
+	strcpy(villeAtmp, strTmp.c_str());
+	getline (fichierEntree,strTmp,'|');
+	strcpy(moyenDeTtmp, strTmp.c_str());
 	TrajetSimple* trajetSimpleRetour = new TrajetSimple(villeDtmp, villeAtmp, moyenDeTtmp);
 	delete[] villeDtmp;
 	delete[] villeAtmp;
@@ -1115,12 +1138,29 @@ TrajetSimple* Catalogue::creerTrajetSimple(ifstream &fichierEntree)
 	return trajetSimpleRetour;
 }//-------Fin de creerTrajetSimple
 
+TrajetCompose* Catalogue::creerTrajetCompose(std::ifstream &fichierEntree)
+{
+	string nbComposants;
+	getline (fichierEntree,nbComposants,'|');
+	//convertir le string pris du flux d'entrée en entier
+	int nombreTrajetsComposants = stoi (nbComposants,nullptr,0);
+	TrajetCompose* trajetComposeRetour = new TrajetCompose(creerTrajetSimple(fichierEntree));
+	//cout << entier;
+	for( int j(1) ; j < nombreTrajetsComposants ; j++)
+	{
+		//Allouer l'espace mémoire pour la première fois
+		trajetComposeRetour->Ajouter(creerTrajetSimple(fichierEntree));
+	}
+	return trajetComposeRetour;
 
+}
 
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Catalogue::Catalogue () : trajetsDisponibles()
+Catalogue::Catalogue () : trajetsDisponibles(),
+													cptTrajetsSimples (0),
+													cptTrajetsComposes(0)
 // Algorithme :
 //
 {
@@ -1137,4 +1177,3 @@ Catalogue::~Catalogue ( )
     cout << "Appel au destructeur de <Catalogue>" << endl;
 #endif
 } //----- Fin de ~Catalogue
-

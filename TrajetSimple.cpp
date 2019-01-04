@@ -52,15 +52,15 @@ void TrajetSimple::Afficher(void) const
 
 
 void TrajetSimple::Enregistrer(ofstream & fout) const
-{ 
-	fout <<" " << villeDepart << " " << villeArrivee << " " << moyenDeTransport ;
+{
+	fout <<"|" << villeDepart << "|" << villeArrivee << "|" << moyenDeTransport ;
 }//-----Fin Enregistrer
 
 //-------------------------------------------- Constructeurs - destructeur
 TrajetSimple::TrajetSimple ( char * vDepart, char * vArrivee, char * mTransport)
-// Algorithme : Les attributs sont déclarés dans le corps du constructeur 
-// afin de pouvoir les détruire proprement à la destruction de l'objet, 
-// ce qui s'avérait plus difficile avec la construction du type () : {} 
+// Algorithme : Les attributs sont déclarés dans le corps du constructeur
+// afin de pouvoir les détruire proprement à la destruction de l'objet,
+// ce qui s'avérait plus difficile avec la construction du type () : {}
 //
 {
 

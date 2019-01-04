@@ -16,12 +16,11 @@
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
-enum eMoyenDeTransport {Train, Auto, Bateau, Avion, Velo};
 //------------------------------------------------------------------------
 // Rôle de la classe <TrajetSimple>
 //	Définir	un trajet par sa ville de départ, sa ville d'arrivée et son moyen de transport
-//	Cette classe constitue aussi la brique de base des trajets composés, qui, peuvent être 
-//  de plusieurs trajets simples ou bien d'autres trajets composés.  
+//	Cette classe constitue aussi la brique de base des trajets composés, qui, peuvent être
+//  de plusieurs trajets simples ou bien d'autres trajets composés.
 //
 //------------------------------------------------------------------------
 

@@ -73,29 +73,29 @@ public:
     // Contrat : vDep (et vFin) appartiennent à l'ensemble des villes
     // de départ (et fin, respectivement) dans le catalogue.
 
-	bool SauvegardeAll(ofstream & fout,string chemin) const;
+	bool SauvegardeAll(ofstream & fout) const;
 	//Mode d'emploi : Cette fonction permet d'enregistrer tous les trajets du catalogue
-	// dans le fichier dont le flux de sortie et le nom du fichier sont passés en paramètre.
+	// dans le fichier dont le flux de sortie est passé en paramètre.
     // Contrat : Si l'acces au fichier est impossible, la fonction retournera
     // false.
 
-	bool SauvegardeType(ofstream & fout, string chemin, bool type) const;
+	bool SauvegardeType(ofstream & fout, bool type) const;
 	// Mode d'emploi : Cette fonction permet d'enregistrer tous les trajets du catalogue dont le type
     // dépend de la valeur de "bool type ": 0 --> un trajet simple et 1--> un trajet composé
-    //dans le fichier dont le nom et le flux de sortie sont aussi passé en paramètre.
+    //dans le flux de sortie est aussi passé en paramètre.
     // La fonction renvoie false si aucun trajet n'a été ajouté au fichier et true sinon.
     // Contrat :Si l'acces au fichier est impossible, la fonction retournera
     // false
 
-	bool SauvegardeVD(ofstream & fout,string chemin, const char* vd) const;
+	bool SauvegardeVD(ofstream & fout, const char* vd) const;
 	// Mode d'emploi:C ette fonction permet d'enregistrer tous les trajets du catalogue dont la ville
 	// de départ correspond au tableau de caractères passé en paramètre
-	//dans le fichier dont le nom etle flux de sortie sont aussi passés en paramètre.
+	//dans le fichier dontle flux de sortie est passé en paramètre.
 	// La fonction renvoie false si aucun trajet n'a été ajouté au fichier et true sinon.
 	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
     // false.
 
-	bool SauvegardeVA(ofstream & fout, string chemin, const char *va) const;
+	bool SauvegardeVA(ofstream & fout, const char *va) const;
 	// Mode d'emploi: Cette fonction permet d'enregistrer tous les trajets du catalogue dont la ville
     // d'arrivée correspond au tableau de caractères passé en paramètre
    //dans le fichier dont le nom et le flux de sortie sont aussi passés en paramètre.
@@ -103,18 +103,18 @@ public:
    // Contrat :Si l'acces au fichier est impossible, la fonction retournera
    // false.
 
-	bool SauvegardeVDA(ofstream & fout, string chemin, const char* vd,const char *va ) const;
+	bool SauvegardeVDA(ofstream & fout, const char* vd,const char *va ) const;
 	// Mode d'emploi:Cette fonction permet d'enregistrer tous les trajets du catalogue dont la ville
     // de départ et la ville d'arrivée correspondent aux tableau de caractères passés en paramètre
-    //dans le fichier dont le nom etle flux de sortie sont aussi passés en paramètre.
+    //dans le fichier dont le flux de sortie est aussi passé en paramètre.
     // La fonction renvoie false si aucun trajet n'a été ajouté au fichier et true sinon.
     // Contrat :Si l'acces au fichier est impossible, la fonction retournera
     // false.
 
-	bool SauvegardeSelec(ofstream & fout, string chemin,unsigned const int n,const unsigned int m) const;
+	bool SauvegardeSelec(ofstream & fout,unsigned const int n,const unsigned int m) const;
 	// Mode d'emploi : Cette fonction permet d'enregistrer tous les trajets du catalogue contenus dans l'intervalle
 	//qui a comme borne inférieur "n" et borne supérieur "m"
-	//dans le fichier dont le nom etle flux de sortie sont aussi passés en paramètre.
+	//dans le fichier dont le flux de sortie est  aussi passé en paramètre.
 	// La fonction renvoie false si aucun trajet n'a été ajouté au fichier et true sinon.
 	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
 	// false. La gestion de la validité de l'intervalle se fait dans le menu
@@ -165,7 +165,17 @@ public:
 	// Contrat :Si l'acces au fichier est impossible, la fonction retournera
 	// false. La gestion de la validité de l'intervalle se fait dans le menu
 
+	bool ExisteFile(const string chemin) const;
+	//Mode d'emploi : Cette fonction vérifie si le fichier existe dans le dossier
+	//qui contient les fichiers enregistrés. Elle renvoie un boolean vrai s'il existe;
+	// Contrat:
 
+	void Ouverture(ofstream &fout,string nomFichier) const;
+	//Mode d'emploi: Cette fonction permet d'ouvrir le fichier
+	// de sauvegarde, et prend en compte l'existance ou non du fichier dans le dossier
+	//"Fichiers-Saved". Elle donne le choix à l'utilisateur d'écraser, d'écrire à la suite
+	//du fichier ou encore d'entrer un nouveau nom de fichier.
+	// Contrat:
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -198,6 +208,7 @@ protected:
 	// Contrat : Il faut qu'il y ai au moins une correspondance sur la ligne actuelle
 
 
+ 
 //----------------------------------------------------- Attributs protégés
     CollectionTrajet trajetsDisponibles;
     unsigned cptTrajetsSimples;

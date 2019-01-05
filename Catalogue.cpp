@@ -1,4 +1,4 @@
-/*************************************************************************************
+﻿/*************************************************************************************
 						   Catalogue  -  description
 							 -------------------
 	début                : 17/12/2018
@@ -180,11 +180,19 @@ void Catalogue::MenuSave()
 			case '1':
 			{
 				cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
-				getline (cin,nomFichier);
+				getline(cin, nomFichier);
+				nomFichier = "Fichiers_Saved/" + nomFichier;
 				ofstream fout;
-				nomFichier = "Fichiers_Saved/"+nomFichier + ".doc";
-				SauvegardeAll(fout, nomFichier);
-				cout << "Fichier enregistré !" << endl;
+				Ouverture(fout,nomFichier);
+				if (!SauvegardeAll(fout))
+				{
+					cout << "Erreur,dans le sauvegarde du  fichier : " << nomFichier << endl;
+				}
+				else
+				{
+					cout << "Fichier enregistré!" << endl;
+				}
+
 				break;
 			}
 
@@ -203,9 +211,16 @@ void Catalogue::MenuSave()
 					nb = stoi (strTmp,nullptr,0);
 				}
 				ofstream fout;
-				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
-				SauvegardeType(fout,nomFichier,nb);
-				cout << "Fichier enregistré !" << endl;
+				nomFichier = "Fichiers_Saved/" + nomFichier;
+				Ouverture(fout, nomFichier);
+				if (!SauvegardeType(fout, nb))
+				{
+					cout << "Erreur,dans le sauvegarde du  fichier : " << nomFichier << endl;
+				}
+				else
+				{
+					cout << "Fichier enregistré!" << endl;
+				}
 				break;
 			}
 
@@ -234,16 +249,23 @@ void Catalogue::MenuSave()
 				m = stoul (strTmp,nullptr,0);
 				while (m<n || m>cptTrajetsSimples + cptTrajetsComposes)
 				{
-					cout << "Veuillez entrez un nombre entre 1 et  " << cptTrajetsSimples + cptTrajetsComposes <<endl;
+					cout << "Veuillez entrez un nombre entre" <<n<<" et  " << cptTrajetsSimples + cptTrajetsComposes <<endl;
 					getline (cin,strTmp);
 					m = stoul (strTmp,nullptr,0);
 				}
 				cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
 				getline (cin,nomFichier);
 				ofstream fout;
-				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
-				SauvegardeSelec(fout, nomFichier, n,m);
-				cout << "Fichier enregistré !" << endl;
+				nomFichier = "Fichiers_Saved/" + nomFichier;
+				Ouverture(fout, nomFichier);
+				if (!SauvegardeSelec(fout, n, m))
+				{
+					cout << "Erreur,dans le sauvegarde du  fichier : " << nomFichier << endl;
+				}
+				else
+				{
+					cout << "Fichier enregistré!" << endl;
+				}
 				break;
 			}
 
@@ -251,7 +273,7 @@ void Catalogue::MenuSave()
 			{
 				cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 				getline (cin,nomFichier);
-				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
+				nomFichier = "Fichiers_Saved/" + nomFichier;
 				if (!ChargementAll(nomFichier))
 				{
 					cout << "Erreur, le fichier : " << nomFichier << " n'existe pas ou ne peut pas etre ouvert." << endl;
@@ -268,7 +290,7 @@ void Catalogue::MenuSave()
 			{
 				cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 				getline (cin,nomFichier);
-				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
+				nomFichier = "Fichiers_Saved/" + nomFichier;
 				int nb;
 				cout << "saisissez 0 pour ne sauvegarder que les trajets simples et 1 pour les trajets composés" << endl;
 				getline (cin,strTmp);
@@ -298,9 +320,9 @@ void Catalogue::MenuSave()
 			case '8':
 			{
 				unsigned int nbLignes = 0;
-				cout << "Saisissez le chemin d'acces pour votre Sauvegarde." << endl;
+				cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 				getline (cin,nomFichier);
-				nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
+				nomFichier = "Fichiers_Saved/" + nomFichier;
 				string lignes;
 				ifstream in;
 				in.open(nomFichier);
@@ -330,7 +352,7 @@ void Catalogue::MenuSave()
 					m = stoul (strTmp,nullptr,0);
 					while (m<n || m> nbLignes)
 					{
-						cout << "Veuillez entrez un nombre entre 1 et " << nbLignes << endl;
+						cout << "Veuillez entrez un nombre entre "<< n<< "et " << nbLignes << endl;
 						getline (cin,strTmp);
 						m = stoul (strTmp,nullptr,0);
 					}
@@ -355,7 +377,6 @@ void Catalogue::MenuSave()
 			}
 			case '9':
 			{
-				//Menu();
 				break;
 			}
 
@@ -402,9 +423,16 @@ void Catalogue::MenuSave()
 						cout << "Veuillez entrez le nom du fichier que vous voulez sauvegarder" << endl;
 						getline (cin,nomFichier);
 						ofstream fout;
-						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
-						SauvegardeVD(fout, nomFichier, villeD);
-						cout << "Fichier enregistré !" << endl;
+						nomFichier = "Fichiers_Saved/" + nomFichier;
+						Ouverture(fout, nomFichier);
+						if (!SauvegardeVD(fout,  villeD))
+						{
+							cout << "Erreur,dans le sauvegarde du  fichier : " << nomFichier << endl;
+						}
+						else
+						{
+							cout << "Fichier enregistré!" << endl;
+						}
 						break;
 					}
 
@@ -415,10 +443,17 @@ void Catalogue::MenuSave()
 						strcpy(villeA, strTmp.c_str());
 						cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
 						getline (cin,nomFichier);
-						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";;
+						nomFichier = "Fichiers_Saved/" + nomFichier;
 						ofstream fout;
-						SauvegardeVA(fout, nomFichier, villeA);
-						cout << "Fichier enregistré !" << endl;
+						Ouverture(fout, nomFichier);
+						if (!SauvegardeVA(fout, villeA))
+						{
+							cout << "Erreur,dans le sauvegarde du  fichier : " << nomFichier << endl;
+						}
+						else
+						{
+							cout << "Fichier enregistré!" << endl;
+						}
 						break;
 					}
 
@@ -433,9 +468,16 @@ void Catalogue::MenuSave()
 						cout << "Veuillez entrer le nom du fichier que vous voulez sauvegarder" << endl;
 						getline (cin,nomFichier);
 						ofstream fout;
-						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
-						SauvegardeVDA(fout,nomFichier, villeD, villeA);
-						cout << "Fichier enregistré !" << endl;
+						nomFichier = "Fichiers_Saved/" + nomFichier;
+						Ouverture(fout, nomFichier);
+						if (!SauvegardeVDA(fout, villeD, villeA))
+						{
+							cout << "Erreur,dans le sauvegarde du  fichier : " << nomFichier << endl;
+						}
+						else
+						{
+							cout << "Fichier enregistré!" << endl;
+						}
 						break;
 					}
 
@@ -446,7 +488,7 @@ void Catalogue::MenuSave()
 						strcpy(villeD, strTmp.c_str());
 						cout << "Saisissez le chemin d'acces pour votre Chargement."<< endl;
 						getline (cin,nomFichier);
-						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
+						nomFichier = "Fichiers_Saved/" + nomFichier;
 
 
 						if (!ChargementVD(nomFichier,villeD))
@@ -471,7 +513,7 @@ void Catalogue::MenuSave()
 						strcpy(villeA, strTmp.c_str());
 						cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 						getline (cin,nomFichier);
-						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
+						nomFichier = "Fichiers_Saved/" + nomFichier;
 
 						if (!ChargementVA(nomFichier, villeA))
 						{
@@ -495,7 +537,7 @@ void Catalogue::MenuSave()
 						strcpy(villeA, strTmp.c_str());
 						cout << "Saisissez le chemin d'acces pour votre Chargement." << endl;
 						getline (cin,nomFichier);
-						nomFichier = "Fichiers_Saved/" + nomFichier + ".doc";
+						nomFichier = "Fichiers_Saved/" + nomFichier;
 
 						if (!ChargementVDA(nomFichier, villeD,villeA))
 						{
@@ -569,13 +611,16 @@ void Catalogue::RechercherParcoursSimple(const char *  vDep, const char *  vFin)
         cout << '\n';
       }
     }
+	if (j == 1)
+	{
+		cout << "Aucun trajet correspondant n'a été trouvé" << endl;
+	}
 }//----Fin de AjouterTrajet
 
-bool Catalogue::SauvegardeAll(ofstream & fout,string chemin) const
+bool Catalogue::SauvegardeAll(ofstream & fout) const
 {
 	bool save = false;
 	int trajetsSaved = 0;
-	fout.open(chemin);
 	if (fout)
 	{
 		const int nbTrajets = trajetsDisponibles.EnvoyerCard();
@@ -600,7 +645,7 @@ bool Catalogue::SauvegardeAll(ofstream & fout,string chemin) const
 	}
 	else
 	{
-		cerr << "impossible d'ouvrir le fichier";
+		cerr << "impossible d'ouvrir le fichier" << endl;
 
 	}
 	fout.close();
@@ -611,11 +656,10 @@ bool Catalogue::SauvegardeAll(ofstream & fout,string chemin) const
 	return save;
 }//------Fin de SauvegardeAll
 
-bool Catalogue::SauvegardeType(ofstream & fout, string chemin,bool type) const
+bool Catalogue::SauvegardeType(ofstream & fout,bool type) const
 {
 	int trajetsSaved = 0;
 	bool save = false;
-	fout.open(chemin);
 	if (fout)
 	{
 		const int nbTrajets = trajetsDisponibles.EnvoyerCard();
@@ -654,11 +698,10 @@ bool Catalogue::SauvegardeType(ofstream & fout, string chemin,bool type) const
 	return save;
 }//-----Fin de SauvegardeType
 
-bool Catalogue::SauvegardeVD(ofstream & fout, string chemin, const char* vd) const
+bool Catalogue::SauvegardeVD(ofstream & fout, const char* vd) const
 {
 	bool save = false;
 	int trajetsSaved = 0;
-	fout.open(chemin);
 	if (fout)
 	{
 		const int nbTrajets = trajetsDisponibles.EnvoyerCard();
@@ -699,11 +742,10 @@ bool Catalogue::SauvegardeVD(ofstream & fout, string chemin, const char* vd) con
 }//-----Fin de SauvegardeVD
 
 
-bool Catalogue::SauvegardeVA(ofstream & fout, string chemin, const char* va) const
+bool Catalogue::SauvegardeVA(ofstream & fout, const char* va) const
 {
 	bool save = false;
 	int trajetsSaved = 0;
-	fout.open(chemin);
 	if (fout)
 	{
 		const int nbTrajets = trajetsDisponibles.EnvoyerCard();
@@ -742,11 +784,10 @@ bool Catalogue::SauvegardeVA(ofstream & fout, string chemin, const char* va) con
 	return save;
 }//-----Fin de SauvegardeVA
 
-bool Catalogue::SauvegardeVDA(ofstream & fout, string  chemin, const char* vd, const char* va) const
+bool Catalogue::SauvegardeVDA(ofstream & fout, const char* vd, const char* va) const
 {
 	bool save = false;
 	int trajetsSaved = 0;
-	fout.open(chemin);
 	if (fout)
 	{
 		const int nbTrajets = trajetsDisponibles.EnvoyerCard();
@@ -786,11 +827,10 @@ bool Catalogue::SauvegardeVDA(ofstream & fout, string  chemin, const char* vd, c
 }
 //----Fin de SauvegardeVDA
 
-bool Catalogue::SauvegardeSelec(ofstream & fout, string chemin, const unsigned int n,const unsigned int m) const
+bool Catalogue::SauvegardeSelec(ofstream & fout, const unsigned int n,const unsigned int m) const
 {
 	bool save = false;
 	int trajetsSaved = 0;
-	fout.open(chemin);
 	if (fout)
 	{
 		//const int nbTrajets = trajetsDisponibles.EnvoyerCard();
@@ -1087,6 +1127,62 @@ TrajetCompose* Catalogue::creerTrajetCompose(std::ifstream &fichierEntree)
 	return trajetComposeRetour;
 
 }
+bool Catalogue :: ExisteFile(const string chemin) const
+{
+	ifstream file(chemin);
+	return !file.fail();
+}
+void Catalogue::Ouverture(ofstream &fout,string nomFichier)const
+{
+	bool exister = ExisteFile(nomFichier);
+	string strTmp;
+	char openChoix;
+	if (exister)
+	{
+		do
+		{
+			cout << "Ce fichier existe déjà ! " << endl;
+			cout << "1 : Pour ecraser(remplacer) le fichier existant" << endl;
+			cout << "2 : Pour ecrire à la suite du fichier existant " << endl;
+			cout << "3 : Pour choisir un autre nom de fichier " << endl;
+			getline(cin, strTmp);
+			openChoix = strTmp.c_str()[0];
+			if(openChoix=='1')
+			    {
+					fout.open(nomFichier, ios::out);	
+					exister = false;
+				}
+			else if(openChoix=='2')
+				{
+					fout.open(nomFichier, ios::app);
+					exister = false;
+				}
+			else if(openChoix=='3')
+				{
+					cout << "Saississez le nom du fichier" << endl;
+					getline(cin, nomFichier);
+					nomFichier = "Fichiers_Saved/" + nomFichier;
+					exister = ExisteFile(nomFichier);
+					if (!exister)
+					{
+						fout.open(nomFichier, ios::out);
+					}
+				}
+			else
+			{
+				cout << " Veuillez saisir un chiffre entre 1 et 3" << endl;
+			}
+				
+
+		} while (exister);
+	}
+	else
+	{
+		fout.open(nomFichier, ios::out);
+	}
+
+}
+
 
 
 
